@@ -1,0 +1,15 @@
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/bin/Debug/net7.0/PI001
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/bin/Debug/net7.0/PI001.deps.json
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/bin/Debug/net7.0/PI001.runtimeconfig.json
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/bin/Debug/net7.0/PI001.dll
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/bin/Debug/net7.0/PI001.pdb
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.csproj.AssemblyReference.cache
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.GeneratedMSBuildEditorConfig.editorconfig
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.AssemblyInfoInputs.cache
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.AssemblyInfo.cs
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.csproj.CoreCompileInputs.cache
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.dll
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/refint/PI001.dll
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.pdb
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/PI001.genruntimeconfig.cache
+/home/jhonata-araujo-nascimento/TIC18_dotnet/Semana1/PI001/obj/Debug/net7.0/ref/PI001.dll
