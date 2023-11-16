@@ -23,7 +23,11 @@ dotnet --list-sdks
 ## Verifica a localização da(s) instalação(ões) de .NET SDK no sistema
 ### Windows:
 ```powershell
-where dotnet
+where.exe dotnet
+```
+
+```powershell
+gcm dotnet | select Source
 ```
 
 ### Linux:
