@@ -34,6 +34,9 @@
     nuint dadoRecebido;
 
     // EXEMPLOS:
+    Console.WriteLine("================================");
+    Console.WriteLine("          Tipo de Dados          ");
+    Console.WriteLine("================================");
 
     // sbyte:
     // Representando a intensidade de sinal de áudio normalizada 
@@ -86,7 +89,7 @@
     tamanhoBuffer = 1024;
     dadoRecebido = 42;
     Console.WriteLine($"nint: Tamanho do buffer: {tamanhoBuffer}");
-    Console.WriteLine($"nuint: Dado Recebido de uma API: {dadoRecebido}\n\n");
+    Console.WriteLine($"nuint: Dado Recebido de uma API: {dadoRecebido}");
 #endregion
 
 
@@ -98,6 +101,9 @@ problema através de um exemplo em C#. */
     double tipoDouble = 3.14;
     int tipoInt;
     tipoInt = (int) tipoDouble;
+    Console.WriteLine("\n===============================");
+    Console.WriteLine("  Conversão de Tipos de Dados   ");
+    Console.WriteLine("===============================");
     Console.WriteLine("Valor do Double: " + tipoDouble);
     Console.WriteLine("Valor do Int: " + tipoInt); // A parte fracionaria de tipoDouble é truncada
 #endregion 
@@ -113,6 +119,9 @@ e exibir o resultado da adição, subtração, multiplicação e divisão de x p
     int sub = x - y;
     int mult = x * y;
     int divisao = x / y;
+    Console.WriteLine("\n===========================");
+    Console.WriteLine("  Operadores Aritméticos   ");
+    Console.WriteLine("===========================");
     Console.WriteLine($"Adição:        {x} + {y} = {soma}");
     Console.WriteLine($"Subtração:     {x} - {y} = {sub}");
     Console.WriteLine($"Multiplicação: {x} * {y} = {mult}");
@@ -124,10 +133,13 @@ se a é maior que b e exiba o resultado. */
 #region Operadores de Comparação:
     int a = 5;
     int b = 8;
+    Console.WriteLine("\n==============================");
+    Console.WriteLine("  Operadores de Comparação    ");
+    Console.WriteLine("==============================");
     if (a > b){
-        Console.WriteLine("a é maior que b");
+        Console.WriteLine($"{a} > {b}? -> Verdadeiro");
     } else {
-        Console.WriteLine("a é menor que b");
+        Console.WriteLine($"{a} > {b}? -> Falso");
     }
 #endregion
 
@@ -136,6 +148,9 @@ código para verificar se as duas strings são iguais e exibir o resultado. */
 #region Operadores de Igualdade:
     string str1 = "Hello";
     string str2 = "World";
+    Console.WriteLine("\n==============================");
+    Console.WriteLine("   Operadores de Igualdade    ");
+    Console.WriteLine("==============================");
     if (str1 == str2){
         Console.WriteLine($"As strings \"{str1}\" e \"{str2}\" são iguais");
     } {
@@ -149,14 +164,17 @@ verdadeiras e exiba o resultado. */
 #region Operadores Lógicos
     bool condicao1 = true;
     bool condicao2 = false;
+    Console.WriteLine("\n==============================");
+    Console.WriteLine("     Operadores Lógicos       ");
+    Console.WriteLine("==============================");
     if (condicao1 && condicao2){
-        Console.WriteLine("Ambas as condições são verdadeiras");
+        Console.WriteLine($"{condicao1} && {condicao2}? Ambas as condições são verdadeiras");
     } else if(condicao1) {
-        Console.WriteLine($"Somente a condição 1 é verdadeira");
+        Console.WriteLine($"{condicao1} && {condicao2}? Somente a condição 1 é verdadeira");
     } else if (condicao2) {
-        Console.WriteLine($"Somente a condição 2 é verdadeira");
+        Console.WriteLine($"{condicao1} && {condicao2}? Somente a condição 2 é verdadeira");
     } else {
-        Console.WriteLine($"Ambas as condições são falsas");
+        Console.WriteLine($"{condicao1} && {condicao2}? Ambas as condições são falsas");
     }
 #endregion
 
@@ -166,6 +184,9 @@ código para verificar se num1 é maior do que num2 e se num3 é igual a num1 + 
 int num1 = 7; 
 int num2 = 3;
 int num3 = 10;
+Console.WriteLine("\n==============================");
+Console.WriteLine("   Mistura de Operadores      ");
+Console.WriteLine("==============================");
 if (num1 > num2 && num3 == (num1 + num2)){
     Console.WriteLine($"{num1} é maior que {num2} e {num3} é igual a soma de {num1} e {num2}");
 }
