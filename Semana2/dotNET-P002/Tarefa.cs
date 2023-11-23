@@ -79,13 +79,14 @@ public class Tarefa{
 
     public string toString(){
         string Checkbox = this.Concluida ? "Sim" : "Não";
-        return "Título: " + this.Titulo + "\nDescrição: " + this.Descricao + "\nData de Criação: " + this.DataDeCriacao + "\nData de Vencimento: " + this.DataDeVencimento + "\nConcluída: " + Checkbox;
+        return "Id: " + this.id + "\nTítulo: " + this.Titulo + "\nDescrição: " + this.Descricao + "\nData de Criação: " + this.DataDeCriacao + "\nData de Vencimento: " + this.DataDeVencimento + "\nConcluída: " + Checkbox;
     }
 
     public string exibeFormatado(){
         string checkbox = this.Concluida ? "Sim" : "Não";
 
         return  "════════════════════════════════════\n" + 
+            $"{"Id",-20}: {this.id}\n" +
             $"{"Título",-20}: {this.Titulo}\n" +
             $"{"Descrição",-20}: {this.Descricao}\n" +
             $"{"Data de Criação",-20}: {this.DataDeCriacao}\n" +
@@ -126,8 +127,7 @@ public class Tarefas{
 
     public void listarTarefas(){ 
         foreach(Tarefa tarefa in this.tarefas){
-            Console.WriteLine(tarefa.getId());
-            Console.WriteLine(tarefa.toString());
+            Console.WriteLine(tarefa.exibeFormatado());
             Console.WriteLine();
         }
     }
@@ -136,23 +136,21 @@ public class Tarefas{
         if (status){
             foreach(Tarefa tarefa in this.tarefas){
                 if(tarefa.getConcluida()){
-                    Console.WriteLine(tarefa.getId());
-                    Console.WriteLine(tarefa.toString());
+                    Console.WriteLine(tarefa.exibeFormatado());
                     Console.WriteLine();
                 }
             }
         } else {
             foreach(Tarefa tarefa in this.tarefas){
                 if(!tarefa.getConcluida()){
-                    Console.WriteLine(tarefa.getId());
-                    Console.WriteLine(tarefa.toString());
+                    Console.WriteLine(tarefa.exibeFormatado());
                     Console.WriteLine();
                 }
             }
         }
     }
 
-    public Tarefas pesquisarTarefas(string palavraChave){
+    public Tarefas? pesquisarTarefas(string palavraChave){
         palavraChave = palavraChave.ToLower();
         Tarefas tarefasEncontradas = new Tarefas();
         foreach(Tarefa tarefa in this.tarefas){
@@ -160,7 +158,7 @@ public class Tarefas{
                 tarefasEncontradas.adicionarTarefa(tarefa);
             }
         }
-        return tarefasEncontradas;
+        return tarefasEncontradas.getQuantidade() > 0 ? tarefasEncontradas : null;
     }
 
     public int getQuantidade(){
