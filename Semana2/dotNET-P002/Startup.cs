@@ -1,6 +1,10 @@
 ﻿namespace dotNET_P002;
 public class Startup
 {
+    /// <summary>
+    /// Cria uma nova tarefa com base nas informações fornecidas pelo usuário e a adiciona à lista de tarefas.
+    /// </summary>
+    /// <param name="tarefas">A lista de tarefas onde a nova tarefa será adicionada.</param>
     public static void CriarTarefa(Tarefas tarefas)
     {
         string titulo;
@@ -10,35 +14,42 @@ public class Startup
         Console.Write("Digite a descrição da tarefa: ");
         descricao = Console.ReadLine();
         Console.Write("Digite a data de vencimento da tarefa: ");
-        DateTime dataDeVencimento = DateTime.Parse(Console.ReadLine());
+        if (!DateTime.TryParse(Console.ReadLine(), out DateTime dataDeVencimento))
+        {
+            Console.WriteLine("Data inválida!");
+            return;
+        }
         tarefas.adicionarTarefa(new Tarefa(titulo, descricao, DateTime.Now, dataDeVencimento));
     }
 
+    /// <summary>
+    /// Edita uma tarefa permitindo que o usuário modifique seu título, descrição e data de vencimento.
+    /// </summary>
+    /// <param name="tarefas">A lista de tarefas.</param>
     public static void EditarTarefa(Tarefas tarefas)
     {
         string titulo;
         string descricao;
         DateTime dataDeVencimento;
         Tarefa? tarefa;
-        Tarefas tarefasEncontradas = new Tarefas();
-        string palavraChave;
+        Tarefas? tarefasEncontradas = MenuObtemTarefa(tarefas, "Editar");
         int opEscolheTarefa;
         int opMenuEditarTarefa;
-        Console.Write("Pesquise a tarefa: ");
-        palavraChave = Console.ReadLine();
-        tarefasEncontradas = tarefas.pesquisarTarefas(palavraChave);
-        if (tarefasEncontradas.getQuantidade() > 0)
+
+        if (tarefasEncontradas is not null)
         {
-            Console.WriteLine("<Tarefas encontradas>:");
+            Console.Clear();
+            Console.WriteLine("<Tarefas Disponíveis>:");
             tarefasEncontradas.listarTarefas();
-            Console.Write("Escolha uma opção: ");
+            Console.Write("Escolha uma opção para editar: ");
             opEscolheTarefa = int.Parse(Console.ReadLine());
-            if (opEscolheTarefa >= 0 && opEscolheTarefa <= tarefasEncontradas.getQuantidade())
-            {
+            tarefa = tarefasEncontradas.getTarefa(opEscolheTarefa);
+            if (tarefa is not null)
+            {                
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine(tarefasEncontradas.getTarefa(opEscolheTarefa).exibeFormatado());
+                    Console.WriteLine(tarefa.exibeFormatado());
                     Console.WriteLine("1 - Editar título");
                     Console.WriteLine("2 - Editar descrição");
                     Console.WriteLine("3 - Editar data de vencimento");
@@ -50,38 +61,24 @@ public class Startup
                         case 1:
                             Console.Write("Digite o novo título: ");
                             titulo = Console.ReadLine();
-                            tarefa = tarefasEncontradas.getTarefa(opEscolheTarefa);
-                            if (tarefa is Tarefa)
-                            {
-                                Console.WriteLine(tarefa.getTitulo() + " -> " + titulo);
-                                tarefa.setTitulo(titulo);
-                            }
+                            Console.WriteLine(tarefa.getTitulo() + " -> " + titulo);
+                            tarefa.setTitulo(titulo);
                             break;
                         case 2:
                             Console.Write("Digite a nova descrição: ");
                             descricao = Console.ReadLine();
-                            tarefa = tarefasEncontradas.getTarefa(opEscolheTarefa);
-                            if (tarefa is Tarefa)
-                            {
-                                Console.WriteLine(tarefa.getDescricao() + " -> " + descricao);
-                                tarefa.setDescricao(descricao);
-                            }
+                            Console.WriteLine(tarefa.getDescricao() + " -> " + descricao);
+                            tarefa.setDescricao(descricao);
                             break;
                         case 3:
                             Console.Write("Digite a nova data de vencimento: ");
-                            string? entradaUsuario = Console.ReadLine();
                             if (!DateTime.TryParse(Console.ReadLine(), out dataDeVencimento))
                             {
                                 Console.WriteLine("Data inválida!");
                                 continue;
                             }
-
-                            tarefa = tarefasEncontradas.getTarefa(opEscolheTarefa);
-                            if (tarefa is Tarefa)
-                            {
-                                Console.WriteLine(tarefa.getDataDeVencimento() + " -> " + dataDeVencimento);
-                                tarefa.setDataDeVencimento(dataDeVencimento);
-                            }
+                            Console.WriteLine(tarefa.getDataDeVencimento() + " -> " + dataDeVencimento);
+                            tarefa.setDataDeVencimento(dataDeVencimento);
                             break;
                         case 0:
                             continue;
@@ -103,47 +100,53 @@ public class Startup
         }
     }
 
+    /// <summary>
+    /// Marca uma tarefa como concluida
+    /// </summary>
+    /// <param name="tarefas">A lista de tarefas.</param>
     public static void marcarConcluida(Tarefas tarefas)
     {
-        Tarefas tarefasEncontradas;
-        string palavraChave;
-        int opEscolheTarefa;
-        Console.Write("Pesquise a tarefa: ");
-        palavraChave = Console.ReadLine();
-        tarefasEncontradas = tarefas.pesquisarTarefas(palavraChave);
-        if (tarefasEncontradas.getQuantidade() > 0)
+        Tarefas? tarefasEncontradas = MenuObtemTarefa(tarefas, "Marcar como concluída");
+        int opEscolheTarefa;     
+        Tarefa? tarefa;   
+
+        if (tarefasEncontradas is not null)
         {
             Console.WriteLine("<Tarefas encontradas>:");
             tarefasEncontradas.listarTarefas();
             Console.Write("Escolha uma opção: ");
             if (int.TryParse(Console.ReadLine(), out opEscolheTarefa))
             {
-                tarefasEncontradas.getTarefa(opEscolheTarefa).marcarConcluida();
-                Console.WriteLine("Tarefa" + tarefasEncontradas.getTarefa(opEscolheTarefa).getTitulo()  + " concluída!");
+                tarefa = tarefasEncontradas.getTarefa(opEscolheTarefa);
+                if (tarefa is not null){
+                    tarefa.marcarConcluida();
+                    Console.WriteLine("Tarefa " + tarefa.getTitulo() + " concluída!");
+                }
+                else
+                {
+                    Console.WriteLine("Tarefa inválida!");
+                }                
             }
             else
             {
                 Console.WriteLine("Opção inválida!");
             }
-        }
-        else
-        {
-            Console.WriteLine("Nenhuma tarefa encontrada!");
-        }
-        Console.WriteLine("\nPressione qualquer tecla para continuar...");
-        Console.ReadKey();
+            Console.WriteLine("\nPressione qualquer tecla para continuar...");
+            Console.ReadKey();
+        }        
     }
 
+    /// <summary>
+    /// Exclui uma tarefa da lista de tarefas.
+    /// </summary>
+    /// <param name="tarefas">A lista de tarefas.</param>
     public static void ExcluirTarefa(Tarefas tarefas)
     {
-        Tarefas tarefasEncontradas;
-        string palavraChave;
+        Tarefas? tarefasEncontradas = MenuObtemTarefa(tarefas, "Excluir");
         int opEscolheTarefa;
         string confirmacao;
-        Console.Write("Pesquise a tarefa: ");
-        palavraChave = Console.ReadLine();
-        tarefasEncontradas = tarefas.pesquisarTarefas(palavraChave);
-        if (tarefasEncontradas.getQuantidade() > 0)
+        
+        if (tarefasEncontradas is not null)
         {
             Console.WriteLine("<Tarefas encontradas>:");
             tarefasEncontradas.listarTarefas();
@@ -156,31 +159,29 @@ public class Startup
                 {
                     tarefas.removerTarefa(opEscolheTarefa);
                     Console.WriteLine("Tarefa excluída!");
-              
+
                 }
             }
             else
             {
                 Console.WriteLine("Opção inválida!");
             }
-
+            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.ReadKey();
         }
-        else
-        {
-            Console.WriteLine("Nenhuma tarefa encontrada!");
-        }
-        Console.WriteLine("Pressione qualquer tecla para continuar...");
-        Console.ReadKey();
+ 
     }
 
+    /// <summary>
+    /// Pesquisa tarefas com base em uma palavra-chave e exibe as tarefas encontradas.
+    /// </summary>
+    /// <param name="tarefas">Objeto contendo a lista de tarefas.</param>
     public static void PesquisarTarefa(Tarefas tarefas)
-    {
-        Tarefas tarefasEncontradas;
-        string palavraChave;
+    {     
         Console.Write("Digite uma palavra chave: ");
-        palavraChave = Console.ReadLine();
-        tarefasEncontradas = tarefas.pesquisarTarefas(palavraChave);
-        if (tarefas.getQuantidade() > 0)
+        string palavraChave = Console.ReadLine();
+        Tarefas? tarefasEncontradas = tarefas.pesquisarTarefas(palavraChave);
+        if (tarefasEncontradas is not null)
         {
             Console.WriteLine("<Tarefas encontradas>:");
             tarefasEncontradas.listarTarefas();
@@ -193,7 +194,11 @@ public class Startup
         Console.ReadKey();
     }
 
-    public static void exibeEstatisticas(Tarefas tarefas)
+    /// <summary>
+    /// Exibe as estatísticas das tarefas.
+    /// </summary>
+    /// <param name="tarefas">Objeto contendo as tarefas.</param>
+    public static void ExibeEstatisticas(Tarefas tarefas)
     {
         int tarefasConcluidas;
         Console.WriteLine("Quantidade de tarefas: " + tarefas.getQuantidade());
@@ -206,11 +211,47 @@ public class Startup
         Console.ReadKey();
     }
 
+    /// <summary>
+    /// Obtém uma tarefa com base na escolha do usuário.
+    /// </summary>
+    /// <param name="tarefas">Objeto contendo as tarefas disponíveis.</param>
+    /// <returns>A tarefa selecionada ou null se o usuário escolher voltar.</returns>
+    private static Tarefas? MenuObtemTarefa(Tarefas tarefas, string operacao){
+        string palavraChave;
+        int opMenuObterTarefa;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("<Obter tarefa para: " + operacao + ">");
+            Console.WriteLine("1 - Pesquisar tarefa");
+            Console.WriteLine("2 - Listar todas as tarefas");
+            Console.WriteLine("0 - Voltar");
+            Console.Write("Escolha uma opção: ");
+            opMenuObterTarefa = int.Parse(Console.ReadLine());
+            switch (opMenuObterTarefa)
+            {
+                case 1:
+                    Console.Write("Pesquise a tarefa: ");
+                    palavraChave = Console.ReadLine();
+                    return tarefas.pesquisarTarefas(palavraChave);
+                case 2:
+                    return tarefas;
+                case 0:
+                    continue;
+                default:
+                    Console.WriteLine("Opção inválida!");
+                    break;
+            }
+
+        } while (opMenuObterTarefa != 0);
+        return null;
+    }
+
     public static void Main(string[] args)
     {
         Tarefas tarefas = new Tarefas();
         int opMenuPrincipal = -1;
-        int opMenuListaTarefas = -1;
+        int opMenuListaTarefas;
         tarefas.adicionarTarefa(new Tarefa("Fazer compras", "Comprar mantimentos para a semana", DateTime.Now, DateTime.Now.AddDays(2)));
         tarefas.adicionarTarefa(new Tarefa("Estudar", "Estudar para a prova de Compiladores", DateTime.Now, DateTime.Now.AddDays(1)));
         tarefas.adicionarTarefa(new Tarefa("Limpar a casa", "Realizar a faxina completa", DateTime.Now, DateTime.Now.AddDays(5)));
@@ -295,7 +336,7 @@ public class Startup
                 case 7:
                     Console.Clear();
                     Console.WriteLine("<Estatísticas>:");
-                    exibeEstatisticas(tarefas);
+                    ExibeEstatisticas(tarefas);
                     break;
                 case 0:
                     continue;
