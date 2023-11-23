@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aula3_Exercicios", "Semana2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula4_Exercicios", "Semana2\Aula4_Exercicios\Aula4_Exercicios.csproj", "{DF2B3622-D1A7-4DDF-B278-D56580DC15CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNET-P002", "Semana2\dotNET-P002\dotNET-P002\dotNET-P002.csproj", "{439F9720-1486-46DA-A299-B686ABBBDD26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNET-P002", "Semana2\dotNET-P002\dotNET-P002.csproj", "{439F9720-1486-46DA-A299-B686ABBBDD26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
