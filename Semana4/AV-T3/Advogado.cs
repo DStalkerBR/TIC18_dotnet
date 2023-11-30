@@ -12,6 +12,18 @@ public class Advogado : Pessoa
         }
     }
 
+    public List<Cliente> Clientes {
+        get { return clientes; }
+        set { 
+            if (value == null) throw new Exception("Lista de clientes não pode ser nula");
+            clientes = value;
+        }
+    }
+
+    public void AdicionaCliente(Cliente cliente) {
+        Clientes.Add(cliente);
+    }
+
     public Advogado(string nome, string cpf, DateTime dataNascimento, string cna) {
         Nome = nome;
         Cpf = cpf;

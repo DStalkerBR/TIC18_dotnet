@@ -18,6 +18,7 @@ namespace dotNET_AV_T3
                 Console.WriteLine("3 - Listar clientes");
                 Console.WriteLine("4 - Listar advogados");
                 Console.WriteLine("5 - Gerar Relatórios");
+                Console.WriteLine("6 - Adicionar processo");
                 Console.WriteLine("0 - Sair");
                 Console.Write("Opção: ");
                 try {
@@ -124,6 +125,14 @@ namespace dotNET_AV_T3
                             }
                         } while(opcaoRelatorio != 0);
                         opcaoRelatorio = -1;                    
+                    break;
+                    case 6:
+                        try {
+                            App.AdicionaProcesso(clientes, advogados);
+                        } catch (Exception e) {
+                            Console.WriteLine(e.Message);
+                            App.PressioneQualquerTecla();
+                        }
                     break;
                     case 0:
                         Console.WriteLine("Saindo...");

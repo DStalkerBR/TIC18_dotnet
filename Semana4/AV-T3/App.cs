@@ -25,6 +25,17 @@ public static class App
         return clientes;
     }
 
+    public static List<Processo> CriaProcessos(List<Advogado> advogados, List<Cliente> clientes){
+        List<Processo> processos = new List<Processo>
+        {
+            new Processo("123", "Processo 1", new DateTime(2021, 1, 1), null, clientes[0], advogados[0]),
+            new Processo("234", "Processo 2", new DateTime(2021, 2, 2), null, clientes[1], advogados[1]),
+            new Processo("345", "Processo 3", new DateTime(2021, 3, 3), null, clientes[2], advogados[2]),
+            new Processo("456", "Processo 4", new DateTime(2021, 4, 4), null, clientes[3], advogados[3])
+        };
+        return processos;
+    }
+
     public static void CadastraCliente(List<Cliente> clientes)
     {
         string? nome;
@@ -275,6 +286,25 @@ public static class App
         Console.WriteLine(string.Join("\n\n", advogados1.Select(advogado => advogado.ToString())));
         PressioneQualquerTecla();
 
+
+    }
+
+    public static void AdicionaProcesso(List<Cliente> clientes, List<Advogado> advogados){
+        string? numero;
+        string? descricao;
+        DateTime dataInicio;
+        DateTime? dataFim;
+        Cliente cliente;
+        Advogado advogado;
+        Console.Clear();
+        Console.WriteLine("Cadastro de Processo");
+        Console.Write("Número: ");
+        if (string.IsNullOrEmpty(numero = Console.ReadLine()))
+        {
+            throw new Exception("Número inválido!");
+        }
+
+        // checa se numero ja existe em algum processo
 
     }
     
