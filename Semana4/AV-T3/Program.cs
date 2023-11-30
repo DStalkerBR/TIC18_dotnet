@@ -24,6 +24,7 @@ namespace dotNET_AV_T3
                     opcao = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                 } catch (Exception e) {
                     Console.WriteLine(e.Message);
+                    App.PressioneQualquerTecla();
                 }   
                 switch(opcao){
                     case 1:
@@ -31,6 +32,7 @@ namespace dotNET_AV_T3
                             App.CadastraCliente(clientes);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
+                            App.PressioneQualquerTecla();
                         }
                     break;
                     case 2:
@@ -38,6 +40,7 @@ namespace dotNET_AV_T3
                             App.CadastraAdvogado(advogados);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
+                            App.PressioneQualquerTecla();
                         }
                     break;
                     case 3:
@@ -61,25 +64,56 @@ namespace dotNET_AV_T3
                                 opcaoRelatorio = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
                             } catch (Exception e) {
                                 Console.WriteLine(e.Message);
+                                App.PressioneQualquerTecla();
                             }
                             switch(opcaoRelatorio){
                                 case 1:
-                                    App.RelatorioAdvogadosIdade(advogados);
+                                    try {
+                                        App.RelatorioAdvogadosIdade(advogados);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 2:
-                                    App.RelatorioClientesIdade(clientes);
+                                    try {
+                                        App.RelatorioClientesIdade(clientes);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 3:
-                                    App.RelatorioClientesEstadoCivil(clientes);
+                                    try {
+                                        App.RelatorioClientesEstadoCivil(clientes);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 4:
-                                    App.RelatorioClientesOrdemAlfabetica(clientes);
+                                    try {
+                                        App.RelatorioClientesOrdemAlfabetica(clientes);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 5:
-                                    App.RelatorioClientesProfissao(clientes);
+                                    try {
+                                        App.RelatorioClientesProfissao(clientes);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 6:
-                                    App.RelatorioAniversariantes(advogados, clientes);
+                                    try {
+                                        App.RelatorioAniversariantes(clientes, advogados);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
                                 break;
                                 case 0:
                                     Console.WriteLine("Voltando...");

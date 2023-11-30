@@ -2,6 +2,7 @@ namespace Pessoa;
 public class Advogado : Pessoa
 {
     private string cna;
+    private List<Cliente> clientes;
 
     public string Cna {
         get { return cna; }
@@ -20,6 +21,6 @@ public class Advogado : Pessoa
 
     public override string ToString()
     {
-        return $"Nome: {Nome}\nCPF: {Cpf}\nData de Nascimento: {DataNascimento}\nCNA: {Cna}";
+        return $"Nome: {Nome}\nCPF: {Cpf}\nData de Nascimento: {DataNascimento.Date}\nCNA: {Cna}";
     }
 }

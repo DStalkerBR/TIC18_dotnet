@@ -28,4 +28,9 @@ public class Cliente : Pessoa
         Profissao = profissao;
     }
 
+    public override string ToString()
+    {
+        return $"Nome: {Nome}\nCPF: {Cpf}\nData de Nascimento: {DataNascimento.Date}\nEstado Civil: {EstadoCivil}\nProfissão: {Profissao}";
+    }
+
 }

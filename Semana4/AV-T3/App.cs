@@ -6,22 +6,22 @@ public static class App
     public static List<Advogado> CriaAdvogados()
     {
         List<Advogado> advogados = new List<Advogado>();
-        advogados.Add(new Advogado("João", "12345678901", new DateTime(1980, 1, 1), "123456"));
-        advogados.Add(new Advogado("Maria", "23456789012", new DateTime(1985, 2, 2), "234567"));
-        advogados.Add(new Advogado("José", "34567890123", new DateTime(1990, 3, 3), "345678"));
-        advogados.Add(new Advogado("Ana", "45678901234", new DateTime(1995, 4, 4), "456789"));
-        advogados.Add(new Advogado("Pedro", "56789012345", new DateTime(2000, 5, 5), "567890"));
+        advogados.Add(new Advogado("João Andrade", "12345678901", new DateTime(1980, 1, 1), "123456"));
+        advogados.Add(new Advogado("Maria Silva", "23456789012", new DateTime(1985, 2, 2), "234567"));
+        advogados.Add(new Advogado("José Carlos", "34567890123", new DateTime(1990, 3, 3), "345678"));
+        advogados.Add(new Advogado("Ana Maria", "45678901234", new DateTime(1995, 4, 4), "456789"));
+        advogados.Add(new Advogado("Pedro Souza", "56789012345", new DateTime(2000, 5, 5), "567890"));
         return advogados;
     }
 
     public static List<Cliente> CriaClientes()
     {
         List<Cliente> clientes = new List<Cliente>();
-        clientes.Add(new Cliente("João", "12345678901", new DateTime(1980, 1, 1), "Casado", "Advogado"));
-        clientes.Add(new Cliente("Maria", "23456789012", new DateTime(1985, 2, 2), "Solteiro", "Médico"));
-        clientes.Add(new Cliente("José", "34567890123", new DateTime(1990, 3, 3), "Casado", "Engenheiro"));
-        clientes.Add(new Cliente("Ana", "45678901234", new DateTime(1995, 4, 4), "Solteiro", "Professor"));
-        clientes.Add(new Cliente("Pedro", "56789012345", new DateTime(2000, 5, 5), "Casado", "Advogado"));
+        clientes.Add(new Cliente("John Smith", "12345678901", new DateTime(1980, 1, 1), "Casado", "Advogado"));
+        clientes.Add(new Cliente("Manuela Alves", "23456789012", new DateTime(1985, 2, 2), "Solteiro", "Médico"));
+        clientes.Add(new Cliente("Ze Sergio", "34567890123", new DateTime(1990, 3, 3), "Casado", "Engenheiro"));
+        clientes.Add(new Cliente("Abigail Marques", "45678901234", new DateTime(1995, 4, 4), "Solteiro", "Professor"));
+        clientes.Add(new Cliente("Antonio Pereira", "56789012345", new DateTime(2000, 5, 5), "Casado", "Advogado"));
         return clientes;
     }
 
@@ -123,7 +123,7 @@ public static class App
         Console.WriteLine("Lista de Clientes");
         foreach (Cliente cliente in clientes)
         {
-            Console.WriteLine(cliente);
+            Console.WriteLine(cliente.ToString());
         }
         App.PressioneQualquerTecla();
     }
@@ -134,7 +134,7 @@ public static class App
         Console.WriteLine("Lista de Advogados");
         foreach (Advogado advogado in advogados)
         {
-            Console.WriteLine(advogado);
+            Console.WriteLine(advogado.ToString());
         }
         App.PressioneQualquerTecla();
     }
@@ -163,6 +163,7 @@ public static class App
         advogados1 = porIdade(advogados, idadeMinima, idadeMaxima);
         Console.WriteLine("Advogados com idade entre {0} e {1} anos:", idadeMinima, idadeMaxima);
         Console.WriteLine(string.Join("\n\n", advogados1.Select(advogado => advogado.ToString())));    
+        PressioneQualquerTecla();
     }
 
     public static void RelatorioClientesIdade(List<Cliente> clientes){
@@ -244,6 +245,7 @@ public static class App
         clientes1 = porProfissao(clientes, profissao);
         Console.WriteLine("Clientes com profissão {0}:", profissao);
         Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+        PressioneQualquerTecla();
     }
 
     public static void RelatorioAniversariantes(List<Cliente> clientes, List<Advogado> advogados){
@@ -255,8 +257,25 @@ public static class App
         {
             throw new Exception("Mês inválido!");
         }
+        List<Cliente> clientes1;
+        List<Advogado> advogados1;
+        Func<List<Cliente>, int, List<Cliente>> clientePorAniversario;
+        Func<List<Advogado>, int, List<Advogado>> advogadoPorAniversario;
+        clientePorAniversario = (clientes, mes) => clientes
+                                    .Where(cliente => cliente.DataNascimento.Month == mes)
+                                    .ToList();
+        advogadoPorAniversario = (advogados, mes) => advogados
+                                    .Where(advogado => advogado.DataNascimento.Month == mes)
+                                    .ToList();
+        clientes1 = clientePorAniversario(clientes, mes);
+        advogados1 = advogadoPorAniversario(advogados, mes);
+        Console.WriteLine("Clientes aniversariantes do mês {0}:", mes);
+        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+        Console.WriteLine("Advogados aniversariantes do mês {0}:", mes);
+        Console.WriteLine(string.Join("\n\n", advogados1.Select(advogado => advogado.ToString())));
+        PressioneQualquerTecla();
 
-        
+
     }
     
     public static void PressioneQualquerTecla()
