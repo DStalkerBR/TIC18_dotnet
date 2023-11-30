@@ -47,7 +47,7 @@ namespace dotNET_P003
                         break;
                     case 3:
                         try {
-                            // App.AtualizarEstoque(produtos);
+                            App.AtualizarEstoque(produtos);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
                             App.PressioneQualquerTecla();

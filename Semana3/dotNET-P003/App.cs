@@ -73,6 +73,39 @@ public static class App
         }
     }
 
+    public static void AtualizarEstoque(Estoque produtos){
+        Console.Clear();
+        Console.WriteLine("Atualizar Estoque");
+        Console.Write("Digite o código do produto: ");
+        int codigo = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        Produto? produto = produtos.ProcurarProduto(codigo);
+        if (produto == null)
+        {
+            throw new Exception("Produto não encontrado");
+        }
+        Console.WriteLine("Tipo de movimentação: ");
+        Console.WriteLine("1. Entrada ");
+        Console.WriteLine("2. Saída ");
+        Console.Write("Opção: ");
+        int opcao = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        Console.Write("Quantidade: ");
+        int quantidade = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        if (opcao == 1)
+        {
+            produtos.AtualizarEstoque(produto, quantidade);
+        }
+        else if (opcao == 2)
+        {
+            produtos.AtualizarEstoque(produto, -quantidade);
+        }
+        else
+        {
+            throw new Exception("Opção inválida");
+        }
+        Console.WriteLine("Estoque atualizado com sucesso!");
+        App.PressioneQualquerTecla();
+    }
+
     public static void PressioneQualquerTecla()
     {
         Console.WriteLine("Pressione qualquer tecla para continuar...");

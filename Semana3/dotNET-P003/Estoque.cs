@@ -22,4 +22,12 @@ public class Estoque
     {
         return this.Produtos.Find(p => p.Item.codigo == codigo);
     }
+
+    // Crie funções que permitam a atualização da quantidade em estoque de um produto, levando em consideração entradas ou saídas. Faça o tratamento
+    // lógico para lidar com casos em que a quantidade atual seja insuficiente para uma saída.
+
+    public void AtualizarEstoque(Produto produto, int quantidade)
+    {           
+        produto.AtualizarQuantidade(quantidade);
+    }
 }
