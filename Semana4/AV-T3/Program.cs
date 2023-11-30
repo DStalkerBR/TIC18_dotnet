@@ -27,10 +27,18 @@ namespace dotNET_AV_T3
                 }   
                 switch(opcao){
                     case 1:
-                        App.CadastraCliente(clientes);
+                        try {
+                            App.CadastraCliente(clientes);
+                        } catch (Exception e) {
+                            Console.WriteLine(e.Message);
+                        }
                     break;
                     case 2:
-                        App.CadastraAdvogado(advogados);
+                        try {
+                            App.CadastraAdvogado(advogados);
+                        } catch (Exception e) {
+                            Console.WriteLine(e.Message);
+                        }
                     break;
                     case 3:
                         App.ListaClientes(clientes);

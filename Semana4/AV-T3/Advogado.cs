@@ -17,4 +17,9 @@ public class Advogado : Pessoa
         DataNascimento = dataNascimento;
         Cna = cna;
     }
+
+    public override string ToString()
+    {
+        return $"Nome: {Nome}\nCPF: {Cpf}\nData de Nascimento: {DataNascimento}\nCNA: {Cna}";
+    }
 }

@@ -25,9 +25,8 @@ public static class App
         return clientes;
     }
 
-    public static List<Cliente> CadastraCliente()
+    public static void CadastraCliente(List<Cliente> clientes)
     {
-        List<Cliente> clientes = new List<Cliente>();
         string? nome;
         string? cpf;
         string? estadoCivil;
@@ -69,18 +68,201 @@ public static class App
         }
         clientes.Add(new Cliente(nome, cpf, dataNascimento, estadoCivil, profissao));
         Console.WriteLine("Cliente cadastrado com sucesso!");
-        return clientes;
+        App.PressioneQualquerTecla();
     }
 
-    public static List<Advogado> CriarAdvogado (){
+    public static void CadastraAdvogado (List<Advogado> advogados){
+        string? nome;
+        string? cpf;
+        string? cna;
+        DateTime dataNascimento;
         Console.Clear();
         Console.WriteLine("Cadastro de Advogado");
         Console.Write("Nome: ");
+        if (string.IsNullOrEmpty(nome = Console.ReadLine()))
+        {
+            throw new Exception("Nome inválido!");
+        }
+        Console.Write("CPF: ");
 
+        if (string.IsNullOrEmpty(cpf = Console.ReadLine())){
+            throw new Exception("CPF inválido!");
+        }
 
+        if (cpf.Length != 11 || !cpf.All(char.IsDigit))
+        {
+            throw new Exception("CPF inválido!");
+        }
 
+        if (advogados.Any(advogado => advogado.Cpf == cpf))
+        {
+            throw new Exception("CPF já cadastrado!");
+        }
 
+        Console.Write("Data de Nascimento: ");
+        dataNascimento = DateTime.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+
+        Console.Write("CNA: ");
+        if (string.IsNullOrEmpty(cna = Console.ReadLine())){
+            throw new Exception("CNA vazio!");
+        }
+
+        if (advogados.Any(advogado => advogado.Cna == cna))
+        {
+            throw new Exception("CNA já cadastrado!");
+        }
+
+        advogados.Add(new Advogado(nome, cpf, dataNascimento, cna));
+        Console.WriteLine("Advogado cadastrado com sucesso!");
+        App.PressioneQualquerTecla();
+    }
+
+    public static void ListaClientes(List<Cliente> clientes)
+    {
+        Console.Clear();
+        Console.WriteLine("Lista de Clientes");
+        foreach (Cliente cliente in clientes)
+        {
+            Console.WriteLine(cliente);
+        }
+        App.PressioneQualquerTecla();
+    }
+
+    public static void ListaAdvogados(List<Advogado> advogados)
+    {
+        Console.Clear();
+        Console.WriteLine("Lista de Advogados");
+        foreach (Advogado advogado in advogados)
+        {
+            Console.WriteLine(advogado);
+        }
+        App.PressioneQualquerTecla();
+    }
+
+    public static void RelatorioAdvogadosIdade(List<Advogado> advogados){
+        Console.Clear();
+        Console.WriteLine("Relatório de Advogados por Idade");
+        Console.Write("Idade mínima: ");
+        int idadeMinima = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        Console.Write("Idade máxima: ");
+        int idadeMaxima = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        if (idadeMinima > idadeMaxima)
+        {
+            throw new Exception("Idade mínima não pode ser maior que idade máxima!");
+        }
+        if (idadeMinima < 0 || idadeMaxima < 0)
+        {
+            throw new Exception("Idade mínima e máxima devem ser positivas!");
+        }
+
+        IEnumerable<Advogado> advogados1;
+        Func<List<Advogado>, int, int, List<Advogado>> porIdade;
+        porIdade = (advogados, idadeMinima, idadeMaxima) => advogados
+                                    .Where(advogado => advogado.Idade >= idadeMinima && advogado.Idade <= idadeMaxima)
+                                    .ToList();
+        advogados1 = porIdade(advogados, idadeMinima, idadeMaxima);
+        Console.WriteLine("Advogados com idade entre {0} e {1} anos:", idadeMinima, idadeMaxima);
+        Console.WriteLine(string.Join("\n\n", advogados1.Select(advogado => advogado.ToString())));    
+    }
+
+    public static void RelatorioClientesIdade(List<Cliente> clientes){
+        Console.Clear();
+        Console.WriteLine("Relatório de Clientes por Idade");
+        Console.Write("Idade mínima: ");
+        int idadeMinima = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        Console.Write("Idade máxima: ");
+        int idadeMaxima = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        if (idadeMinima > idadeMaxima)
+        {
+            throw new Exception("Idade mínima não pode ser maior que idade máxima!");
+        }
+        if (idadeMinima < 0 || idadeMaxima < 0)
+        {
+            throw new Exception("Idade mínima e máxima devem ser positivas!");
+        }
+
+        IEnumerable<Cliente> clientes1;
+        Func<List<Cliente>, int, int, List<Cliente>> porIdade;
+        porIdade = (clientes, idadeMinima, idadeMaxima) => clientes
+                                    .Where(cliente => cliente.Idade >= idadeMinima && cliente.Idade <= idadeMaxima)
+                                    .ToList();
+        clientes1 = porIdade(clientes, idadeMinima, idadeMaxima);
+        Console.WriteLine("Clientes com idade entre {0} e {1} anos:", idadeMinima, idadeMaxima);
+        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));    
+        PressioneQualquerTecla();
+    }
+
+    public static void RelatorioClientesEstadoCivil(List<Cliente> clientes){
+        Console.Clear();
+        Console.WriteLine("Relatório de Clientes por Estado Civil");
+        Console.Write("Estado Civil: ");
+        string estadoCivil = Console.ReadLine() ?? throw new InvalidOperationException();
+        if (string.IsNullOrEmpty(estadoCivil))
+        {
+            throw new Exception("Estado civil inválido!");
+        }
+
+        IEnumerable<Cliente> clientes1;
+        Func<List<Cliente>, string, List<Cliente>> porEstadoCivil;
+        porEstadoCivil = (clientes, estadoCivil) => clientes
+                                    .Where(cliente => cliente.EstadoCivil == estadoCivil)
+                                    .ToList();
+        clientes1 = porEstadoCivil(clientes, estadoCivil);
+        Console.WriteLine("Clientes com estado civil {0}:", estadoCivil);
+        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+        PressioneQualquerTecla();
+    }
+
+    public static void RelatorioClientesOrdemAlfabetica (List<Cliente> clientes){
+        Console.Clear();
+        Console.WriteLine("Relatório de Clientes em Ordem Alfabética");
+        List<Cliente> clientes1;
+        Func<List<Cliente>, List<Cliente>> porOrdemAlfabetica;
+        porOrdemAlfabetica = (clientes) => clientes
+                                    .OrderBy(cliente => cliente.Nome)
+                                    .ToList();
+        clientes1 = porOrdemAlfabetica(clientes);
+        Console.WriteLine("Clientes em ordem alfabética:");
+        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+        PressioneQualquerTecla();
+    }
+
+    public static void RelatorioClientesProfissao(List<Cliente> clientes){
+        Console.Clear();
+        Console.WriteLine("Relatório de Clientes por Profissão");
+        Console.Write("Profissão: ");
+        string profissao = Console.ReadLine() ?? throw new InvalidOperationException();
+        if (string.IsNullOrEmpty(profissao))
+        {
+            throw new Exception("Profissão inválida!");
+        }
+        List<Cliente> clientes1;
+        Func<List<Cliente>, string, List<Cliente>> porProfissao;
+        porProfissao = (clientes, profissao) => clientes
+                                    .Where(cliente => cliente.Profissao == profissao)
+                                    .ToList();
+        clientes1 = porProfissao(clientes, profissao);
+        Console.WriteLine("Clientes com profissão {0}:", profissao);
+        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+    }
+
+    public static void RelatorioAniversariantes(List<Cliente> clientes, List<Advogado> advogados){
+        Console.Clear();
+        Console.WriteLine("Relatório de Aniversariantes");
+        Console.Write("Mês: ");
+        int mes = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+        if (mes < 1 || mes > 12)
+        {
+            throw new Exception("Mês inválido!");
+        }
+
+        
     }
     
+    public static void PressioneQualquerTecla()
+    {
+        Console.WriteLine("Pressione qualquer tecla para continuar...");
+        Console.ReadKey();
+    }
 
 }

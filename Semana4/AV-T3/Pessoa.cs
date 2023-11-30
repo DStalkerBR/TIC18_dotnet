@@ -18,6 +18,10 @@ public class Pessoa
         }
     }
 
+    public int Idade {
+        get { return DateTime.Now.Year - DataNascimento.Year; }
+    }
+
     public DateTime DataNascimento {
         get { return dataNascimento; }
         set { 
