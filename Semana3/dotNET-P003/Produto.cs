@@ -9,13 +9,11 @@ public class Produto
 
     public (int codigo, string nome, int quantidade, double precoUnit) Item { get;  set; }
 
-    // função pra atualizar nome
     public void AtualizarNome(string nome)
     {
         this.Item = (this.Item.codigo, nome, this.Item.quantidade, this.Item.precoUnit);
     }
 
-    // função pra atualizar quantidade
     public void AtualizarQuantidade(int quantidade)
     {
         if ((this.Item.quantidade + quantidade) < 0)
@@ -28,7 +26,6 @@ public class Produto
         }
     }
 
-    // função pra atualizar preço
     public void AtualizarPreco(double precoUnit)
     {
         if (precoUnit < 0)

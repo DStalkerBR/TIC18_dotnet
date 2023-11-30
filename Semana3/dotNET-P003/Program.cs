@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.Globalization;
+﻿using System.Globalization;
 using dotNET_P003.GerenciadorEstoque;
 
 namespace dotNET_P003
@@ -9,7 +8,7 @@ namespace dotNET_P003
         static void Main(string[] args)
         {
             CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("pt-BR");
-            Estoque produtos = App.CriarEstoque();
+            Estoque estoque = App.CriarEstoque();
             int opcao = -1;
             int opcaoRelatorio = -1;
 
@@ -31,7 +30,7 @@ namespace dotNET_P003
                 {
                     case 1:
                         try {
-                            App.CadastroProdutos(produtos);
+                            App.CadastroProdutos(estoque);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
                             App.PressioneQualquerTecla();
@@ -39,7 +38,7 @@ namespace dotNET_P003
                         break;
                     case 2:
                         try {
-                            App.ConsultaProdutos(produtos);
+                            App.ConsultaProdutos(estoque);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
                             App.PressioneQualquerTecla();
@@ -47,7 +46,7 @@ namespace dotNET_P003
                         break;
                     case 3:
                         try {
-                            App.AtualizarEstoque(produtos);
+                            App.AtualizarEstoque(estoque);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
                             App.PressioneQualquerTecla();
@@ -71,7 +70,7 @@ namespace dotNET_P003
                             switch (opcaoRelatorio){
                                 case 1:
                                     try {
-                                        // App.EstoqueBaixo(produtos);
+                                        App.EstoqueBaixo(estoque);
                                     } catch (Exception e) {
                                         Console.WriteLine(e.Message);
                                         App.PressioneQualquerTecla();
@@ -79,7 +78,7 @@ namespace dotNET_P003
                                     break;
                                 case 2:
                                     try {
-                                        // App.ProdutosPorFaixaDePreco(produtos);
+                                        App.ProdutosPorFaixaDePreco(estoque);
                                     } catch (Exception e) {
                                         Console.WriteLine(e.Message);
                                         App.PressioneQualquerTecla();
@@ -87,7 +86,7 @@ namespace dotNET_P003
                                     break;
                                 case 3:
                                     try {
-                                        // App.ValorTotalEstoque(produtos);
+                                        App.ValorTotalEstoque(estoque);
                                     } catch (Exception e) {
                                         Console.WriteLine(e.Message);
                                         App.PressioneQualquerTecla();
@@ -95,7 +94,6 @@ namespace dotNET_P003
                                     break;
                                 case 0:
                                     Console.WriteLine("Voltando...");
-                                    App.PressioneQualquerTecla();
                                     break;
                                 default:
                                     Console.WriteLine("Opção inválida!");
