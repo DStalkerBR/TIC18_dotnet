@@ -12,4 +12,14 @@ public class Estoque
     {
         this.Produtos.Add(produto);
     }
+
+    public void RemoverProduto(Produto produto)
+    {
+        this.Produtos.Remove(produto);
+    }
+
+    public Produto? ProcurarProduto(int codigo)
+    {
+        return this.Produtos.Find(p => p.Item.codigo == codigo);
+    }
 }
