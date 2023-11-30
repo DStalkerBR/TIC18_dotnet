@@ -19,7 +19,7 @@ public static class App
         List<Cliente> clientes = new List<Cliente>();
         clientes.Add(new Cliente("John Smith", "12345678901", new DateTime(1980, 1, 1), "Casado", "Advogado"));
         clientes.Add(new Cliente("Manuela Alves", "23456789012", new DateTime(1985, 2, 2), "Solteiro", "Médico"));
-        clientes.Add(new Cliente("Ze Sergio", "34567890123", new DateTime(1990, 3, 3), "Casado", "Engenheiro"));
+        clientes.Add(new Cliente("Ze Sergio", "34567890123", new DateTime(1990, 4, 3), "Casado", "Engenheiro"));
         clientes.Add(new Cliente("Abigail Marques", "45678901234", new DateTime(1995, 4, 4), "Solteiro", "Professor"));
         clientes.Add(new Cliente("Antonio Pereira", "56789012345", new DateTime(2000, 5, 5), "Casado", "Advogado"));
         return clientes;
@@ -206,7 +206,7 @@ public static class App
         IEnumerable<Cliente> clientes1;
         Func<List<Cliente>, string, List<Cliente>> porEstadoCivil;
         porEstadoCivil = (clientes, estadoCivil) => clientes
-                                    .Where(cliente => cliente.EstadoCivil == estadoCivil)
+                                    .Where(cliente => cliente.EstadoCivil.ToLower() == estadoCivil.ToLower())
                                     .ToList();
         clientes1 = porEstadoCivil(clientes, estadoCivil);
         Console.WriteLine("Clientes com estado civil {0}:", estadoCivil);
@@ -240,7 +240,7 @@ public static class App
         List<Cliente> clientes1;
         Func<List<Cliente>, string, List<Cliente>> porProfissao;
         porProfissao = (clientes, profissao) => clientes
-                                    .Where(cliente => cliente.Profissao == profissao)
+                                    .Where(cliente => cliente.Profissao.ToLower() == profissao.ToLower())
                                     .ToList();
         clientes1 = porProfissao(clientes, profissao);
         Console.WriteLine("Clientes com profissão {0}:", profissao);
@@ -270,9 +270,19 @@ public static class App
         clientes1 = clientePorAniversario(clientes, mes);
         advogados1 = advogadoPorAniversario(advogados, mes);
         Console.WriteLine("Clientes aniversariantes do mês {0}:", mes);
-        Console.WriteLine(string.Join("\n\n", clientes1.Select(cliente => cliente.ToString())));
+        foreach (Cliente cliente in clientes1)
+        {
+            Console.WriteLine(cliente.Cpf);
+            Console.WriteLine(cliente.Nome);
+            Console.WriteLine();
+        }
         Console.WriteLine("Advogados aniversariantes do mês {0}:", mes);
-        Console.WriteLine(string.Join("\n\n", advogados1.Select(advogado => advogado.ToString())));
+        foreach (Advogado advogado in advogados1)
+        {
+            Console.WriteLine(advogado.Cpf);
+            Console.WriteLine(advogado.Nome);
+            Console.WriteLine();
+        }
         PressioneQualquerTecla();
 
 
