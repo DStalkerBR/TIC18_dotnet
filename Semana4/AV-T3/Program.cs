@@ -8,6 +8,7 @@ namespace dotNET_AV_T3
         {
             List<Advogado> advogados = App.CriaAdvogados();
             List<Cliente> clientes = App.CriaClientes();
+            List<Processo> processos = App.CriaProcessos(advogados, clientes);
             int opcao = -1;
             int opcaoRelatorio = -1;
             do {
@@ -18,7 +19,6 @@ namespace dotNET_AV_T3
                 Console.WriteLine("3 - Listar clientes");
                 Console.WriteLine("4 - Listar advogados");
                 Console.WriteLine("5 - Gerar Relatórios");
-                Console.WriteLine("6 - Adicionar processo");
                 Console.WriteLine("0 - Sair");
                 Console.Write("Opção: ");
                 try {
@@ -59,6 +59,7 @@ namespace dotNET_AV_T3
                             Console.WriteLine("4. Clientes em ordem alfabética");
                             Console.WriteLine("5. Clientes por profissão");
                             Console.WriteLine("6. Advogados e Clientes aniversariantes");   
+                            Console.WriteLine("7. Lista de clientes de um advogado");
                             Console.WriteLine("0. Voltar");
                             Console.Write("Opção: ");
                             try {
@@ -116,6 +117,14 @@ namespace dotNET_AV_T3
                                         App.PressioneQualquerTecla();
                                     }
                                 break;
+                                case 7:
+                                    try {
+                                        App.RelatorioClientesAdvogado(advogados, clientes);
+                                    } catch (Exception e) {
+                                        Console.WriteLine(e.Message);
+                                        App.PressioneQualquerTecla();
+                                    }
+                                    break;
                                 case 0:
                                     Console.WriteLine("Voltando...");
                                 break;
@@ -128,7 +137,7 @@ namespace dotNET_AV_T3
                     break;
                     case 6:
                         try {
-                            App.AdicionaProcesso(clientes, advogados);
+                            App.AdicionaProcesso(processos, clientes, advogados);
                         } catch (Exception e) {
                             Console.WriteLine(e.Message);
                             App.PressioneQualquerTecla();
