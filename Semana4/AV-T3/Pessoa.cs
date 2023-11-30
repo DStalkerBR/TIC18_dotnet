@@ -1,5 +1,5 @@
 namespace Pessoa;
-abstract class Pessoa
+public class Pessoa
 {
     private string cpf;
     private DateTime dataNascimento;

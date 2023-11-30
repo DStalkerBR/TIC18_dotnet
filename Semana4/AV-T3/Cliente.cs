@@ -20,4 +20,12 @@ public class Cliente : Pessoa
         }
     }   
 
+    public Cliente(string nome, string cpf, DateTime dataNascimento, string estadoCivil, string profissao) {
+        Nome = nome;
+        Cpf = cpf;
+        DataNascimento = dataNascimento;
+        EstadoCivil = estadoCivil;
+        Profissao = profissao;
+    }
+
 }

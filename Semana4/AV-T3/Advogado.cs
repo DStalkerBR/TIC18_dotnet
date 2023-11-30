@@ -1,5 +1,3 @@
-using System.Xml.Schema;
-
 namespace Pessoa;
 public class Advogado : Pessoa
 {
@@ -11,5 +9,12 @@ public class Advogado : Pessoa
             if (value == null) throw new Exception("CNA não pode ser nulo");
             cna = value;
         }
+    }
+
+    public Advogado(string nome, string cpf, DateTime dataNascimento, string cna) {
+        Nome = nome;
+        Cpf = cpf;
+        DataNascimento = dataNascimento;
+        Cna = cna;
     }
 }
