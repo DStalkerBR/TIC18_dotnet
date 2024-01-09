@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApi", "Semana1\TodoApi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Semana1\Domain\Domain.csproj", "{6475B420-3393-48D6-86A3-C252C7E17D53}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Semana3", "Semana3", "{F316CC16-99F5-43CC-92C1-1F09C49B1667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "techmed", "Semana3\techmed\techmed.csproj", "{A62C4DFF-1FA1-47AA-B513-D995713F1B39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{6475B420-3393-48D6-86A3-C252C7E17D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6475B420-3393-48D6-86A3-C252C7E17D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6475B420-3393-48D6-86A3-C252C7E17D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A62C4DFF-1FA1-47AA-B513-D995713F1B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A62C4DFF-1FA1-47AA-B513-D995713F1B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A62C4DFF-1FA1-47AA-B513-D995713F1B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A62C4DFF-1FA1-47AA-B513-D995713F1B39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9F4E5BD4-FBB3-4C31-AC1C-40B40BB15930} = {AECB1B00-0B8A-48FA-8ED9-69CAF10C8FCD}
 		{6475B420-3393-48D6-86A3-C252C7E17D53} = {AECB1B00-0B8A-48FA-8ED9-69CAF10C8FCD}
+		{A62C4DFF-1FA1-47AA-B513-D995713F1B39} = {F316CC16-99F5-43CC-92C1-1F09C49B1667}
 	EndGlobalSection
 EndGlobal
