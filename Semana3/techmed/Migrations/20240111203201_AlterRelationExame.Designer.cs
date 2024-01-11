@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechMed.Model;
 
@@ -10,9 +11,11 @@ using TechMed.Model;
 namespace techmed.Migrations
 {
     [DbContext(typeof(TechMedContext))]
-    partial class TechMedContextModelSnapshot : ModelSnapshot
+    [Migration("20240111203201_AlterRelationExame")]
+    partial class AlterRelationExame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechMed.Model;
 
@@ -10,29 +11,16 @@ using TechMed.Model;
 namespace techmed.Migrations
 {
     [DbContext(typeof(TechMedContext))]
-    partial class TechMedContextModelSnapshot : ModelSnapshot
+    [Migration("20240111201551_NewMigration")]
+    partial class NewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("AtendimentoExame", b =>
-                {
-                    b.Property<int>("AtendimentosId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExamesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AtendimentosId", "ExamesId");
-
-                    b.HasIndex("ExamesId");
-
-                    b.ToTable("AtendimentoExame");
-                });
 
             modelBuilder.Entity("TechMed.Model.Atendimento", b =>
                 {
@@ -70,6 +58,9 @@ namespace techmed.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AtendimentoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Codigo")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -90,6 +81,8 @@ namespace techmed.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AtendimentoId");
 
                     b.ToTable("Exames", (string)null);
                 });
@@ -144,21 +137,6 @@ namespace techmed.Migrations
                     b.ToTable("Pacientes", (string)null);
                 });
 
-            modelBuilder.Entity("AtendimentoExame", b =>
-                {
-                    b.HasOne("TechMed.Model.Atendimento", null)
-                        .WithMany()
-                        .HasForeignKey("AtendimentosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TechMed.Model.Exame", null)
-                        .WithMany()
-                        .HasForeignKey("ExamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TechMed.Model.Atendimento", b =>
                 {
                     b.HasOne("TechMed.Model.Medico", "Medico")
@@ -176,6 +154,22 @@ namespace techmed.Migrations
                     b.Navigation("Medico");
 
                     b.Navigation("Paciente");
+                });
+
+            modelBuilder.Entity("TechMed.Model.Exame", b =>
+                {
+                    b.HasOne("TechMed.Model.Atendimento", "Atendimento")
+                        .WithMany("Exames")
+                        .HasForeignKey("AtendimentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Atendimento");
+                });
+
+            modelBuilder.Entity("TechMed.Model.Atendimento", b =>
+                {
+                    b.Navigation("Exames");
                 });
 
             modelBuilder.Entity("TechMed.Model.Medico", b =>

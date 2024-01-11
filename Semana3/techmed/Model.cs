@@ -5,6 +5,8 @@ namespace TechMed.Model;
 public class TechMedContext : DbContext {
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Paciente> Pacientes { get; set; }
+    public DbSet<Atendimento> Atendimentos { get; set; }
+    public DbSet<Exame> Exames { get; set; }
 
     public TechMedContext()
     {
@@ -30,39 +32,67 @@ public class TechMedContext : DbContext {
         modelBuilder.Entity<Paciente>().Property(p => p.Cpf).HasColumnType("varchar(11)");
         modelBuilder.Entity<Paciente>().Property(p => p.Nome).HasColumnType("varchar(100)").IsRequired();
 
+        modelBuilder.Entity<Atendimento>().ToTable("Atendimentos").HasKey(c => c.Id);
+        modelBuilder.Entity<Exame>().ToTable("Exames").HasKey(e => e.Id);
+
+
+        modelBuilder.Entity<Atendimento>()
+                .HasOne(a => a.Medico)
+                .WithMany(m => m.Atendimentos)
+                .HasForeignKey(a => a.MedicoId);
+        
+        modelBuilder.Entity<Atendimento>()
+                .HasOne(a => a.Paciente)
+                .WithMany(p => p.Atendimentos)
+                .HasForeignKey(a => a.PacienteId);
+
+        modelBuilder.Entity<Atendimento>()
+                .HasMany(a => a.Exames)
+                .WithMany(e => e.Atendimentos);
     }
 
 }
 
 public abstract class Pessoa {
     public int Id { get; set; }
-    public string Nome { get; set; }
+    public required string Nome { get; set; }
 }
 
 public class Medico : Pessoa {
-    public string Codigo { get; set; }
-    public string Especialidade { get; set; }
-    public float Salario { get; set; }
-
-    public Medico(string nome, string codigo, string especialidade, float salario)
-    {
-        Nome = nome;
-        Codigo = codigo;
-        Especialidade = especialidade;
-        Salario = salario;
-    }
+    public required string Codigo { get; set; }
+    public string? Especialidade { get; set; }
+    public float? Salario { get; set; }
+    public ICollection<Atendimento>? Atendimentos { get; }
+    
 }
 
 public class Paciente : Pessoa {
-    public string Cpf { get; set; }
-    public string Endereco { get; set; }
-    public string Telefone { get; set; }
+    public required string Cpf { get; set; }
+    public string? Endereco { get; set; }
+    public string? Telefone { get; set; }
+    public ICollection<Atendimento>? Atendimentos { get; }
 
-    public Paciente(string nome, string cpf, string endereco, string telefone)
-    {
-        Nome = nome;
-        Cpf = cpf;
-        Endereco = endereco;
-        Telefone = telefone;
-    }
+
 }
+
+public class Atendimento {
+    public int Id { get; set; }
+    public DateTime Data { get; set; }
+    public DateTime Hora { get; set; }
+    public int MedicoId { get; set; }
+    public required Medico Medico { get; set;}
+    public int PacienteId { get; set; }
+    public required Paciente Paciente { get; set;}
+    public double Valor { get; set; }
+    public ICollection<Exame>? Exames { get; set;}
+}
+
+public class Exame {
+    public int Id { get; set; }
+    public required string Codigo { get; set; }
+    public required string Local { get; set; }
+    public string Nome { get; set; }
+    public string Tipo { get; set; }
+    public double Preco { get; set; }
+    public required ICollection<Atendimento> Atendimentos { get; set; }
+} 
