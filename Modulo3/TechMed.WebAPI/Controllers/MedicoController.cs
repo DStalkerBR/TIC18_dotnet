@@ -7,66 +7,74 @@ namespace TechMed.WebAPI.Controllers;
 [Route("/api/v0.1/")]
 public class MedicoController : ControllerBase
 {
+   private readonly ICollection<Medico> _medicos;
+   private int _id = 1;
+
+   public MedicoController(MedicoCollection medicoCollection)
+   {
+      _medicos = medicoCollection.Medicos;
+      
+   }
+
    [HttpGet("medicos")]
    public IActionResult Get()
    {
-      var medico = Enumerable.Range(1, 5).Select(index => new Medico
-        {
-            MedicoId = index,
-            Nome = $"Medico {index}"
-        })
-        .ToArray();
-      return Ok(medico);
+      return Ok(_medicos);
    }
 
    [HttpGet("medico/{id}")]
    public IActionResult GetById(int id)
    {
-      var medico = new Medico
-      {
-         MedicoId = id,
-         Nome = $"Medico {id}"
-      };
+      var medico = _medicos.FirstOrDefault(m => m.MedicoId == id);
       return Ok(medico);
    }
 
    [HttpPost("medico")]
    public IActionResult Post([FromBody] Medico medico)
    {
-      return CreatedAtAction(nameof(GetById), new { id = 1 }, medico);
+      medico.MedicoId = _id++;
+      _medicos.Add(medico);
+      return Ok();
    }
 
    [HttpPut("medico/{id}")]
    public IActionResult Put(int id, [FromBody] Medico medico)
    {
-      //TODO: Buscar um medico pelo id e atualizar os dados
-      // caso não encontre, retorna NotFound()
-      return NoContent();
+      var medicoToUpdate = _medicos.FirstOrDefault(m => m.MedicoId == id);
+      if (medicoToUpdate == null)
+      {
+         return NotFound();
+      }
+      medicoToUpdate.Nome = medico.Nome;
+      return Ok(medicoToUpdate);
    }
 
    [HttpDelete("medico/{id}")]
    public IActionResult Delete(int id)
    {
-      //TODO: Buscar um medico pelo id e apagar
-      // caso não encontre, retorna NotFound()
-      return NoContent();
+      var medicoToDelete = _medicos.FirstOrDefault(m => m.MedicoId == id);
+      if (medicoToDelete == null)
+      {
+         return NotFound();
+      }
+      return Ok(_medicos.Remove(medicoToDelete));
    }
 
    [HttpGet("medico/{id}/atendimentos")]
    public IActionResult GetAtendimentos(int id)
    {
       var atendimento = Enumerable.Range(1, 5).Select(index => new Atendimento
-        {
+         {
             AtendimentoId = index,
             DataHora = DateTime.Now,
             MedicoId = id,
             Medico = new Medico
             {
-                MedicoId = id,
-                Nome = $"Medico {id}"
+               MedicoId = id,
+               Nome = $"Medico {id}"
             }
-        })
-        .ToArray();
+         })
+         .ToArray();
       return Ok(atendimento);
    }
 }
