@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using TechMed.WebAPI.Infra.Data.Interfaces;
 using TechMed.WebAPI.Model;
 
 namespace TechMed.WebAPI.Controllers;
@@ -8,34 +8,47 @@ namespace TechMed.WebAPI.Controllers;
 [Route("/api/v0.1/")]
 public class AtendimentoController : ControllerBase
 {
-  IOptions <OpeningTime> _openingTime;
+    private readonly IAtendimentoCollection _atendimentos;
+    public List<Atendimento> Atendimentos => _atendimentos.GetAll().ToList();
+    public AtendimentoController(IDatabaseFake dbFake) => _atendimentos = dbFake.AtendimentoCollection;
+    [HttpGet("atendimentos")]
+    public IActionResult Get()
+    {
+        return Ok(Atendimentos);
+    }
 
-  public AtendimentoController(IOptions<OpeningTime> openingTime){
-    _openingTime = openingTime;
-  }
+    [HttpGet("atendimento/{id}")]
+    public IActionResult GetById(int id)
+    {
+        var atendimento = _atendimentos.GetById(id);
+        return Ok(atendimento);
+    }
 
-   [HttpGet("atendimentos")]
-   public IActionResult Get()
-   {
-      if (DateTime.Now.TimeOfDay < _openingTime.Value.StartsAt || DateTime.Now.TimeOfDay > _openingTime.Value.EndsAt)
-      {
-        return StatusCode(403, "Forbidden");
-      }
-      var atendimento = Enumerable.Range(1, 5).Select(index => new Atendimento
-        {
-            AtendimentoId = index,
-            DataHora = DateTime.Now,
-            MedicoId = index,
-            Medico = new Medico
-            {
-                MedicoId = index,
-                Nome = $"Medico {index}"
-            }
-        })
-        .ToArray();
-      return Ok(atendimento);
-   }
+    [HttpPost("atendimento")]
+    public IActionResult Post([FromBody] Atendimento atendimento)
+    {
+        
+        _atendimentos.Create(atendimento);
+        return CreatedAtAction(nameof(Get), atendimento);
+    }
 
+    [HttpPut("atendimento/{id}")]
+    public IActionResult Put(int id, [FromBody] Atendimento atendimento)
+    {
+        if (_atendimentos.GetById(id) == null)
+            return NoContent();
+        _atendimentos.Update(id, atendimento);
+        return Ok(_atendimentos.GetById(id));
+    }
 
+    [HttpDelete("atendimento/{id}")]
+    public IActionResult Delete(int id)
+    {
+        if (_atendimentos.GetById(id) == null)
+            return NoContent();
+        _atendimentos.Delete(id);
+        return Ok();
+    }
+    
 
 }
