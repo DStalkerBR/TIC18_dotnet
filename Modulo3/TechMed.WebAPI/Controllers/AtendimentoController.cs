@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TechMed.WebAPI.Infra.Data.Interfaces;
-using TechMed.WebAPI.Model;
+using TechMed.Infrastructure.Persistence.Interfaces;
+using TechMed.Core.Entities;
 
 namespace TechMed.WebAPI.Controllers;
 
@@ -10,7 +10,7 @@ public class AtendimentoController : ControllerBase
 {
     private readonly IAtendimentoCollection _atendimentos;
     public List<Atendimento> Atendimentos => _atendimentos.GetAll().ToList();
-    public AtendimentoController(IDatabaseFake dbFake) => _atendimentos = dbFake.AtendimentoCollection;
+    public AtendimentoController(ITechMedContext context) => _atendimentos = context.AtendimentoCollection;
     [HttpGet("atendimentos")]
     public IActionResult Get()
     {

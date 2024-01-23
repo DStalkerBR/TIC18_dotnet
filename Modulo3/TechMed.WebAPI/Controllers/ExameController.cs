@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TechMed.WebAPI.Infra.Data.Interfaces;
-using TechMed.WebAPI.Model;
+using TechMed.Core.Entities;
+using TechMed.Infrastructure.Persistence.Interfaces;
 
 namespace TechMed.WebAPI.Controllers;
 
@@ -10,7 +10,7 @@ public class ExameController : ControllerBase
 {
     private readonly IExameCollection _exames;
     public List<Exame> Exames => _exames.GetAll().ToList();
-    public ExameController(IDatabaseFake dbFake) => _exames = dbFake.ExameCollection;
+    public ExameController(ITechMedContext context) => _exames = context.ExameCollection;
 
     [HttpGet("exames")]
     public IActionResult Get()

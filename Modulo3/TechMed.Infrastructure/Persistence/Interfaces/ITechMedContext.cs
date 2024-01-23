@@ -1,5 +1,5 @@
-namespace TechMed.WebAPI.Infra.Data.Interfaces;
-public interface IDatabaseFake
+namespace TechMed.Infrastructure.Persistence.Interfaces;
+public interface ITechMedContext
 {
     IMedicoCollection MedicoCollection { get; }
     IPacienteCollection PacienteCollection { get; }

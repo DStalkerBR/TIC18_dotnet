@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TechMed.WebAPI.Infra.Data.Interfaces;
-using TechMed.WebAPI.Model;
+using TechMed.Core.Entities;
+using TechMed.Infrastructure.Persistence.Interfaces;
+using TechMed.Application.InputModels;
+using TechMed.Application.ViewModels;
 
 namespace TechMed.WebAPI.Controllers;
 
@@ -10,7 +12,7 @@ public class MedicoController : ControllerBase
 {
    private readonly IMedicoCollection _medicos;
    public List<Medico> Medicos => _medicos.GetAll().ToList();
-   public MedicoController(IDatabaseFake dbFake) => _medicos = dbFake.MedicoCollection;
+   public MedicoController(ITechMedContext context) => _medicos = context.MedicoCollection;
 
    [HttpGet("medicos")]
    public IActionResult Get()
