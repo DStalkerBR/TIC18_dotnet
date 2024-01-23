@@ -1,4 +1,4 @@
-namespace TechMed.WebAPI.Model;
+namespace TechMed.Core.Entities;
 
 public class Medico : Pessoa{
     public int MedicoId {get; set;}

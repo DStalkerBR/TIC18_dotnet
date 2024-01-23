@@ -1,5 +1,6 @@
-namespace TechMed.WebAPI.Model;
-public class Atendimento
+namespace TechMed.Core.Entities;
+
+public class Atendimento : BaseEntity
 {
     public int AtendimentoId { get; set; }
     public DateTime DataHora { get; set; }

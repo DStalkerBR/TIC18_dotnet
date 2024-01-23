@@ -1,5 +1,6 @@
-namespace TechMed.WebAPI.Model;
-public class Exame
+namespace TechMed.Core.Entities;
+
+public class Exame : BaseEntity
 {
     public int ExameId { get; set; }
     public string Descricao { get; set; }
