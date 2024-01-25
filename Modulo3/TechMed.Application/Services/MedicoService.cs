@@ -8,45 +8,59 @@ namespace TechMed.Application.Services;
 
 public class MedicoService : IMedicoService
 {
-    public MedicoService(ITechMedContext context)
-    {
-    }
+  private readonly ITechMedContext _context;
+  public MedicoService(ITechMedContext context)
+  {
+    _context = context;
+  }
 
-    public void Create(NewMedico medico)
-    {
-        throw new NotImplementedException();
-    }
+  public int Create(NewMedicoInputModel medico)
+  {
+    return _context.MedicoCollection.Create(new Medico{
+      Nome = medico.Nome
+      });
 
-    public void Delete(Medico medico)
-    {
-        throw new NotImplementedException();
-    }
+  }
 
-    public IEnumerable<Medico> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+  public void Delete(int id)
+  {
+    _context.MedicoCollection.Delete(id);
+  }
 
-    public Medico GetByCrm(int id)
-    {
-        throw new NotImplementedException();
-    }
+  public List<MedicoViewModel> GetAll()
+  {
+    var medicos = _context.MedicoCollection.GetAll().Select(m => new MedicoViewModel{
+      MedicoId = m.MedicoId,
+      Nome = m.Nome,
+    }).ToList();
 
-    public Medico GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    return medicos;
 
-    public void Update(Medico medico)
-    {
-        throw new NotImplementedException();
-    }
+  }
 
-    public static OutMedico Map(Medico medico){
-        return new OutMedico{
-            MedicoId = medico.MedicoId,
-            Nome = medico.Nome,
-        };
-    }
+  public MedicoViewModel? GetByCrm(string crm)
+  {
+    throw new NotImplementedException();
+  }
 
-}
+  public MedicoViewModel? GetById(int id)
+  {
+    var medico = _context.MedicoCollection.GetById(id);
+    
+    if(medico is null)
+      return null;
+
+    var MedicoViewModel = new MedicoViewModel{
+      MedicoId = medico.MedicoId,
+      Nome = medico.Nome
+    };
+    return MedicoViewModel;
+  }
+
+  public void Update(int id, NewMedicoInputModel medico)
+  {
+    _context.MedicoCollection.Update(id, new Medico{
+      Nome = medico.Nome
+    });
+  }
+} 

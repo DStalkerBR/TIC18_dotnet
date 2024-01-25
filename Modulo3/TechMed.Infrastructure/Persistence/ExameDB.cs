@@ -7,11 +7,12 @@ public class ExameDB : IExameCollection
     private readonly List<Exame> _exames = new();
     private int _id=  0;
 
-    public void Create(Exame exame){
+    public int Create(Exame exame){
         if(_exames.Count > 0)
             _id = _exames.Max(e => e.ExameId);
         exame.ExameId = ++_id;
         _exames.Add(exame);
+        return exame.ExameId;
     }
 
     public void Delete(int id){

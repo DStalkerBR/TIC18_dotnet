@@ -6,12 +6,13 @@ public class PacienteDB : IPacienteCollection
 {
     private readonly List<Paciente> _pacientes = new List<Paciente>();
     private int _id = 0;
-    public void Create(Paciente paciente)
+    public int Create(Paciente paciente)
     {
         if (_pacientes.Count > 0)
             _id = _pacientes.Max(m => m.PacienteId);
         paciente.PacienteId = ++_id;
         _pacientes.Add(paciente);
+        return paciente.PacienteId;
     }
     public Paciente? GetById(int id)
     {
