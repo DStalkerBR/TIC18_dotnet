@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using TechMed.Infrastructure.Persistence.Interfaces;
 using TechMed.Core.Entities;
+using TechMed.Application.Services.Interfaces;
+using TechMed.Application.ViewModels;
+using TechMed.Application.InputModels;
 
 namespace TechMed.WebAPI.Controllers;
 
@@ -8,9 +11,10 @@ namespace TechMed.WebAPI.Controllers;
 [Route("/api/v0.1/")]
 public class AtendimentoController : ControllerBase
 {
-    private readonly IAtendimentoCollection _atendimentos;
-    public List<Atendimento> Atendimentos => _atendimentos.GetAll().ToList();
-    public AtendimentoController(ITechMedContext context) => _atendimentos = context.AtendimentoCollection;
+    private readonly IAtendimentoService _atendimentoService;
+    public List<AtendimentoViewModel> Atendimentos => _atendimentoService.GetAll().ToList();
+    public AtendimentoController(IAtendimentoService service) => _atendimentoService = service;
+
     [HttpGet("atendimentos")]
     public IActionResult Get()
     {
@@ -20,33 +24,35 @@ public class AtendimentoController : ControllerBase
     [HttpGet("atendimento/{id}")]
     public IActionResult GetById(int id)
     {
-        var atendimento = _atendimentos.GetById(id);
+        var atendimento = _atendimentoService.GetById(id);
         return Ok(atendimento);
     }
 
+
     [HttpPost("atendimento")]
-    public IActionResult Post([FromBody] Atendimento atendimento)
+    public IActionResult Post([FromBody] NewAtendimentoInputModel atendimento)
     {
-        
-        _atendimentos.Create(atendimento);
+        _atendimentoService.Create(atendimento);
         return CreatedAtAction(nameof(Get), atendimento);
     }
-
+    
+/*
     [HttpPut("atendimento/{id}")]
-    public IActionResult Put(int id, [FromBody] Atendimento atendimento)
+    public IActionResult Put(int id, [FromBody] NewAtendimentoInputModel atendimento)
     {
-        if (_atendimentos.GetById(id) == null)
+        if (_atendimentoService.GetById(id) == null)
             return NoContent();
-        _atendimentos.Update(id, atendimento);
-        return Ok(_atendimentos.GetById(id));
+        _atendimentoService.Update(id, atendimento);
+        return Ok(_atendimentoService.GetById(id));
     }
+*/
 
     [HttpDelete("atendimento/{id}")]
     public IActionResult Delete(int id)
     {
-        if (_atendimentos.GetById(id) == null)
+        if (_atendimentoService.GetById(id) == null)
             return NoContent();
-        _atendimentos.Delete(id);
+        _atendimentoService.Delete(id);
         return Ok();
     }
     

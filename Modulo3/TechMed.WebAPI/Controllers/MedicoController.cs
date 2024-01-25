@@ -55,4 +55,14 @@ public class MedicoController : ControllerBase
       _medicoService.Delete(id);
       return Ok();
    }
+
+   [HttpPost("medico/{id}/atendimento")]
+   public IActionResult PostAtendimento(int id, [FromBody] NewAtendimentoInputModel atendimento)
+   {  
+      if (_medicoService.GetById(id) == null)
+         return NoContent();
+
+      _medicoService.CreateAtendimento(id, atendimento);
+      return CreatedAtAction(nameof(Get), atendimento);
+   }
 }

@@ -63,4 +63,15 @@ public class MedicoService : IMedicoService
       Nome = medico.Nome
     });
   }
+
+  public void CreateAtendimento(int id, NewAtendimentoInputModel atendimento)
+  {
+    _context.AtendimentoCollection.Create(new Atendimento{
+      DataHora = atendimento.DataHora,
+      PacienteId = atendimento.PacienteId,
+      MedicoId = id,
+      Medico = _context.MedicoCollection.GetById(id) ?? throw new Exception("Medico não encontrado"),
+      Paciente = _context.PacienteCollection.GetById(atendimento.PacienteId) ?? throw new Exception("Paciente não encontrado")
+    });
+  }
 } 

@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using TechMed.Application.InputModels;
+using TechMed.Application.Services.Interfaces;
+using TechMed.Application.ViewModels;
 using TechMed.Core.Entities;
 using TechMed.Infrastructure.Persistence.Interfaces;
 
@@ -8,9 +11,9 @@ namespace TechMed.WebAPI.Model;
 [Route("/api/v0.1/")]
 public class PacienteController : ControllerBase
 {
-    private readonly IPacienteCollection _pacientes;
-    public List<Paciente> Pacientes => _pacientes.GetAll().ToList();
-    public PacienteController(ITechMedContext context) => _pacientes = context.PacienteCollection;
+    private readonly IPacienteService _pacienteService;
+    public List<PacienteViewModel> Pacientes => _pacienteService.GetAll().ToList();
+    public PacienteController(IPacienteService service) => _pacienteService = service;
 
     [HttpGet("pacientes")]
     public IActionResult Get()
@@ -21,32 +24,32 @@ public class PacienteController : ControllerBase
     [HttpGet("paciente/{id}")]
     public IActionResult GetById(int id)
     {
-        var paciente = _pacientes.GetById(id);
+        var paciente = _pacienteService.GetById(id);
         return Ok(paciente);
     }
 
     [HttpPost("paciente")]
-    public IActionResult Post([FromBody] Paciente paciente)
+    public IActionResult Post([FromBody] NewPacienteInputModel paciente)
     {
-        _pacientes.Create(paciente);
+        _pacienteService.Create(paciente);
         return CreatedAtAction(nameof(Get), paciente);
     }
 
     [HttpPut("paciente/{id}")]
-    public IActionResult Put(int id, [FromBody] Paciente paciente)
+    public IActionResult Put(int id, [FromBody] NewPacienteInputModel paciente)
     {
-        if (_pacientes.GetById(id) == null)
+        if (_pacienteService.GetById(id) == null)
             return NoContent();
-        _pacientes.Update(id, paciente);
-        return Ok(_pacientes.GetById(id));
+        _pacienteService.Update(id, paciente);
+        return Ok(_pacienteService.GetById(id));
     }
 
     [HttpDelete("paciente/{id}")]
     public IActionResult Delete(int id)
     {
-        if (_pacientes.GetById(id) == null)
+        if (_pacienteService.GetById(id) == null)
             return NoContent();
-        _pacientes.Delete(id);
+        _pacienteService.Delete(id);
         return Ok();
     }
     

@@ -12,4 +12,5 @@ public interface IMedicoService
       public int Create(NewMedicoInputModel medico);
       public void Update(int id, NewMedicoInputModel medico);
       public void Delete(int id);
+      void CreateAtendimento(int id, NewAtendimentoInputModel atendimento);
 }
