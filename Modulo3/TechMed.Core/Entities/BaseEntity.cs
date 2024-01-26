@@ -1,8 +1,7 @@
-﻿namespace TechMed.Core.Entities;
-
+namespace TechMed.Core.Entities;
 public abstract class BaseEntity
 {
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset? UpdatedAt { get; set; }
-    public DateTimeOffset? DeletedAt { get; set; }
+   public DateTimeOffset CreatedAt { get; set; }
+   public DateTimeOffset? UpdatedAt { get; set; }
+   public DateTimeOffset? DeletedAt { get; set; }
 }

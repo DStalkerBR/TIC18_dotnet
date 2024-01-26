@@ -1,8 +1,5 @@
 namespace TechMed.Infrastructure.Persistence.Interfaces;
-public interface ITechMedContext
+public interface ITechMedContext : IDatabaseFake
 {
-    IMedicoCollection MedicoCollection { get; }
-    IPacienteCollection PacienteCollection { get; }
-    IExameCollection ExameCollection { get; }
-    IAtendimentoCollection AtendimentoCollection { get; }
+
 }

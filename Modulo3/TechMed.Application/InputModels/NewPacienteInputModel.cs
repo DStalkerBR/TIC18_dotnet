@@ -1,9 +1,8 @@
-﻿namespace TechMed.Application.InputModels;
-
-public class NewPacienteInputModel
+namespace TechMed.Application.InputModels
 {
-    public string Nome { get; set; }
-    public string? CPF { get; set; }
-    public string? Endereco { get; set; }
-    public string? Telefone { get; set; }   
+    public class NewPacienteInputModel
+    {
+        public string Nome { get; set; }
+        // public string Cpf { get; set; }
+    }
 }

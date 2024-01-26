@@ -1,75 +1,58 @@
-﻿using TechMed.Application.InputModels;
 using TechMed.Application.Services.Interfaces;
+using TechMed.Application.InputModels;
 using TechMed.Application.ViewModels;
-using TechMed.Core.Entities;
 using TechMed.Infrastructure.Persistence.Interfaces;
+using TechMed.Core.Entities;
 
 namespace TechMed.Application.Services;
-
 public class PacienteService : IPacienteService
 {
-    private readonly ITechMedContext _context;
+  private readonly ITechMedContext _context;
+  public PacienteService(ITechMedContext context)
+  {
+    _context = context;
+  }
 
-    public PacienteService(ITechMedContext context)
+    public int Create(NewPacienteInputModel medico)
     {
-        _context = context;
-    }
-
-    public int Create (NewPacienteInputModel paciente)
-    {
-        return _context.PacienteCollection.Create(new Paciente
-        {
-            Nome = paciente.Nome,
-            CPF = paciente.CPF,
+        return _context.PacientesCollection.Create(new Paciente{
+        Nome = medico.Nome
         });
     }
 
     public void Delete(int id)
     {
-        _context.PacienteCollection.Delete(id);
+        _context.PacientesCollection.Delete(id);
     }
 
     public List<PacienteViewModel> GetAll()
     {
-        var pacientes = _context.PacienteCollection.GetAll().Select(p => new PacienteViewModel
-        {
-            PacienteId = p.PacienteId,
-            Nome = p.Nome,
-            CPF = p.CPF,
+        var pacientes = _context.PacientesCollection.GetAll().Select(m => new PacienteViewModel{
+        PacienteId = m.PacienteId,
+        Nome = m.Nome
         }).ToList();
 
         return pacientes;
     }
 
-    public PacienteViewModel? GetByCpf(string cpf)
-    {
-        throw new NotImplementedException();
-    }
-
     public PacienteViewModel? GetById(int id)
     {
-        var paciente = _context.PacienteCollection.GetById(id);
+        var paciente = _context.PacientesCollection.GetById(id);
+        
+        if(paciente is null)
+        return null;
 
-        if (paciente is null)
-            return null;
-
-        var pacienteViewModel = new PacienteViewModel
-        {
-            PacienteId = paciente.PacienteId,
-            Nome = paciente.Nome,
-            CPF = paciente.CPF,
+        var PacienteViewModel = new PacienteViewModel{
+        PacienteId = paciente.PacienteId,
+        Nome = paciente.Nome
         };
-
-        return pacienteViewModel;
+        return PacienteViewModel;
     }
 
-    public void Update(int id, NewPacienteInputModel paciente)
+    public void Update(int id, NewPacienteInputModel medico)
     {
-        _context.PacienteCollection.Update(id, new Paciente
-        {
-            Nome = paciente.Nome,
-            CPF = paciente.CPF,
+        _context.PacientesCollection.Update(id, new Paciente{
+        Nome = medico.Nome
         });
     }
-
 }
