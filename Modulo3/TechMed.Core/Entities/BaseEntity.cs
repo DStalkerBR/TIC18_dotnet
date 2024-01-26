@@ -1,4 +1,5 @@
 namespace TechMed.Core.Entities;
+
 public abstract class BaseEntity
 {
    public DateTimeOffset CreatedAt { get; set; }
