@@ -3,15 +3,16 @@ using TechMed.Core.Entities;
 
 namespace TechMed.Infrastructure.Persistence;
 
-public class TechMedDBContext : DbContext
+public class TechMedDbContext : DbContext
 {
-    DbSet<Medico> Medicos { get; set; }
-    DbSet<Paciente> Pacientes { get; set; }
-    DbSet<Atendimento> Atendimentos { get; set; }
-    DbSet<Exame> Exames { get; set; }
+    public DbSet<Medico> Medicos { get; set; }
+    public DbSet<Paciente> Pacientes { get; set; }
+    public DbSet<Atendimento> Atendimentos { get; set; }
+    public DbSet<Exame> Exames { get; set; }
     
-    public TechMedDBContext()
+    public TechMedDbContext() 
     {
+        
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
