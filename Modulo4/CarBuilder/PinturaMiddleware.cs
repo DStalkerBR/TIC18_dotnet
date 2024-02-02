@@ -9,11 +9,11 @@ public class PinturaMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, LinhaMontagem linhaMontagem)
     {
         var pintura = new string[] { "Azul", "Preto", "Branco" };
         var index = new Random().Next(pintura.Length);
-        await context.Response.WriteAsync($"Pintura: {pintura[index]}\n");
+        linhaMontagem.Pintura = pintura[index];
         await _next(context);
     }
 
