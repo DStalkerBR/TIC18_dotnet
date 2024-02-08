@@ -2,22 +2,23 @@
 using TechMed.Application.Services.Interfaces;
 using TechMed.Application.ViewModels;
 using TechMed.Core.Entities;
+using TechMed.Infrastructure.Persistence;
 using TechMed.Infrastructure.Persistence.Interfaces;
 
 namespace TechMed.Application.Services;
 
 public class ExameService : IExameService
 {
-    private readonly ITechMedContext _context;
+    private readonly TechMedDbContext _context;
 
-    public ExameService(ITechMedContext context)
+    public ExameService(TechMedDbContext context)
     {
         _context = context;
     }
 
     public List<ExameViewModel> GetAll()
     {
-        var exames = _context.ExamesCollection.GetAll().Select(e => new ExameViewModel
+        var exames = _context.Exames.Select(e => new ExameViewModel
         {
             ExameId = e.ExameId,
             DataHora = e.DataHora,
@@ -44,7 +45,7 @@ public class ExameService : IExameService
 
     public ExameViewModel? GetById(int exameId)
     {
-        var exame = _context.ExamesCollection.GetById(exameId);
+        var exame = GetByDbId(exameId);
 
         if (exame is null)
             return null;
@@ -81,10 +82,24 @@ public class ExameService : IExameService
             DataHora = exame.DataHora,
             Descricao = exame.Descricao,
             AtendimentoId = exame.AtendimentoId,
-            Atendimento = _context.AtendimentosCollection.GetById(exame.AtendimentoId)
+            Atendimento = _context.Atendimentos.FirstOrDefault(a => a.AtendimentoId == exame.AtendimentoId)
         };
 
-        return _context.ExamesCollection.Create(exameDB);
+        _context.Exames.Add(exameDB);
+
+        _context.SaveChanges();
+
+        return exameDB.ExameId;
+    }
+
+    public Exame GetByDbId(int exameId)
+    {
+        var exame = _context.Exames.FirstOrDefault(e => e.ExameId == exameId);
+
+        if (exame is null)
+            throw new Exception("Exame não encontrado");
+
+        return exame;
     }
 
 }
