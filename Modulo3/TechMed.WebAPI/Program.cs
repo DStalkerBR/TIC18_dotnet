@@ -4,6 +4,7 @@ using TechMed.Application.Services.Interfaces;
 using TechMed.Infrastructure.Persistence;
 using TechMed.Infrastructure.Persistence.Interfaces;
 using TechMed.Application.Auth;
+using TechMed.Infrastructure.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +15,16 @@ builder.Services.AddScoped<IMedicoService, MedicoService>();
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IAtendimentoService, AtendimentoService>();
 builder.Services.AddScoped<IExameService, ExameService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<TechMedDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen( c =>
+builder.Services.AddSwaggerGen();
+/* builder.Services.AddSwaggerGen( c =>
 {
     c.SwaggerDoc("v1", new() { Title = "Simple_Auth.WebAPI", Version = "v1" });
     c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
@@ -47,7 +51,7 @@ builder.Services.AddSwaggerGen( c =>
         }
     });
 });
-
+ */
 
 var app = builder.Build();
 
@@ -64,6 +68,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseMiddleware<SimpleAuthHandler>();
+//app.UseMiddleware<SimpleAuthHandler>();
 
 app.Run();

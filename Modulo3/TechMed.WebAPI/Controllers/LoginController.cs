@@ -16,6 +16,11 @@ public class LoginController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginInputModel login)
     {
-        throw new NotImplementedException();        
+        var loginViewModel = _loginService.Authenticate(login);
+        if (loginViewModel == null)
+        {
+            return Unauthorized();
+        }
+        return Ok(loginViewModel);        
     }
 }

@@ -13,6 +13,14 @@ public class LoginService : ILoginService
     public LoginViewModel? Authenticate(LoginInputModel login)
     {
         string passHashed = _authService.ComputeSha256Hash(login.Password);
-        throw new NotImplementedException();
+        if (login.Username == "admin" && passHashed == _authService.ComputeSha256Hash("admin"))
+        {
+            var token = _authService.GenerateToken(login.Username, "admin");
+            return new LoginViewModel(){
+                Username = login.Username,
+                Token = token
+            };
+        }
+        return null;
     }
 }
