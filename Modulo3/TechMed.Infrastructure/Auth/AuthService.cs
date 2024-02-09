@@ -19,7 +19,7 @@ public class AuthService : IAuthService
         }
     }
 
-    public string GenerateToken(string username, string role){
+    public string GenerateJwtToken(string username, string role){
         var issuer = _configuration["Jwt:Issuer"];
         var audience = _configuration["Jwt:Audience"];
         var key = _configuration["Jwt:Key"] ?? "";

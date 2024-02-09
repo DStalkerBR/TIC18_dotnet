@@ -12,15 +12,27 @@ public class LoginService : ILoginService
 
     public LoginViewModel? Authenticate(LoginInputModel login)
     {
-        string passHashed = _authService.ComputeSha256Hash(login.Password);
-        if (login.Username == "admin" && passHashed == _authService.ComputeSha256Hash("admin"))
+        string _token = "";
+        var _passHashed = _authService.ComputeSha256Hash(login.Password);
+
+        if (login.Username == "admin" && _passHashed == _authService.ComputeSha256Hash("admin"))
+            _token = _authService.GenerateJwtToken(login.Username, "Admin");
+
+        else if (login.Username == "medico" && _passHashed == _authService.ComputeSha256Hash("medico"))
+            _token = _authService.GenerateJwtToken(login.Username, "Medico");
+
+        else if (login.Username == "paciente" && _passHashed == _authService.ComputeSha256Hash("paciente"))
+            _token = _authService.GenerateJwtToken(login.Username, "Paciente");
+
+        if (_token != "")
         {
-            var token = _authService.GenerateToken(login.Username, "admin");
-            return new LoginViewModel(){
+            return new LoginViewModel
+            {
                 Username = login.Username,
-                Token = token
+                Token = _token
             };
         }
+
         return null;
     }
 }
