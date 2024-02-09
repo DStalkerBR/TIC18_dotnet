@@ -29,6 +29,13 @@ public class PacienteController : ControllerBase
    [HttpPost("paciente")]
    public IActionResult Post([FromBody] NewPacienteInputModel paciente)
    {
+      if (!ModelState.IsValid){
+         var errors = ModelState.Values
+                     .SelectMany(e => e.Errors)
+                     .Select(e => e.ErrorMessage)
+                     .ToList();
+         return BadRequest(errors);
+      }
       _pacienteService.Create(paciente);
 
       //service.Create(paciente);

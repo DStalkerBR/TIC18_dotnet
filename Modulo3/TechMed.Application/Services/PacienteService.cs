@@ -17,8 +17,8 @@ public class PacienteService : IPacienteService
 
     private Paciente GetByDbId(int id)
     {
-        var paciente = _context.Pacientes.Find(id);
-        if (paciente is null)
+        var paciente = _context.Pacientes.FirstOrDefault(m => m.PacienteId == id);
+        if (paciente is null) 
             throw new PacienteNotFoundException();
 
         return paciente;
@@ -54,7 +54,7 @@ public class PacienteService : IPacienteService
 
     public PacienteViewModel? GetById(int id)
     {
-        var _paciente = GetById(id);
+        var _paciente = GetByDbId(id);
 
         var PacienteViewModel = new PacienteViewModel
         {
@@ -64,11 +64,11 @@ public class PacienteService : IPacienteService
         return PacienteViewModel;
     }
 
-    public void Update(int id, NewPacienteInputModel medico)
+    public void Update(int id, NewPacienteInputModel paciente)
     {
         var _paciente = GetByDbId(id);
 
-        _paciente.Nome = medico.Nome;
+        _paciente.Nome = paciente.Nome;
 
         _context.Pacientes.Update(_paciente);
 

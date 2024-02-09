@@ -7,6 +7,9 @@ using TechMed.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using TechMed.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,11 @@ builder.Services.AddEndpointsApiExplorer();
 }); */
 
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<NewPacienteValidator>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -49,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Authorization header using the Bearer scheme."
-    });;
+    }); ;
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
