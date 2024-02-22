@@ -1,5 +1,8 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MvcMovie.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcMovieContext>(options =>
@@ -14,8 +17,30 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-   // TODO Mysql
+    //mysql
+    builder.Services.AddDbContext<MvcMovieContext>(options =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("MvcMovieContextMySql");
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+        options.UseMySql(connectionString, serverVersion);
+    });
 }
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+    
 
 var app = builder.Build();
 
@@ -31,6 +56,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();   
 
 app.UseAuthorization();
 
