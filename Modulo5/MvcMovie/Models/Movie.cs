@@ -10,4 +10,7 @@ public class Movie
     public DateTime ReleaseDate { get; set; }
     public string? Genre { get; set; }
     public decimal Price { get; set; }
+    public required int StudioId { get; set; }
+    public Studio? Studio { get; set; }
+    public List<Artist>? Artists { get; set; }
 }
