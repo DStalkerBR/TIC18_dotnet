@@ -25,6 +25,12 @@ public class LoginController : Controller
         return View();
     }
 
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("Authentication");
+        return RedirectToAction("Index");
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([Bind("Email,Password")] User user)
@@ -36,11 +42,8 @@ public class LoginController : Controller
             if (userDb != null) 
             {
                 var token = GenerateJwtToken(userDb.Email, "Admin");
-                HttpContext.Response.Headers.Add("Authorization", "Bearer " + token);
 
-                
-                // mostrar header  no console
-                Console.WriteLine(HttpContext.Response.Headers["Authorization"]);
+                Response.Cookies.Append("Authentication", token);
 
                 return RedirectToAction("Index", "Movies");
             }
@@ -49,7 +52,7 @@ public class LoginController : Controller
                 ModelState.AddModelError("Password", "Essa senha já está em uso pelo usuário Jorge.");
             }
         }
-        return View(user);
+        return RedirectToAction("Index");
     }
 
 
