@@ -50,7 +50,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Users/Create
-        [Authorize (Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
