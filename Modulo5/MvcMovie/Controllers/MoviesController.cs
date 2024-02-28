@@ -11,11 +11,11 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
-    public class MovieController : Controller
+    public class MoviesController : Controller
     {
         private readonly MvcMovieContext _context;
 
-        public MovieController(MvcMovieContext context)
+        public MoviesController(MvcMovieContext context)
         {
             _context = context;
         }
@@ -38,6 +38,7 @@ namespace MvcMovie.Controllers
 
             var movie = await _context.Movie
                 .Include(m => m.Studio)
+                .Include(m => m.Artists)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
@@ -51,8 +52,8 @@ namespace MvcMovie.Controllers
         [Authorize (Roles = "Admin")]
         public IActionResult Create()
         {
-            ViewData["StudioId"] = new SelectList(_context.Studio, "Id", "Name");
-            ViewData["ArtistId"] = new SelectList(_context.Artist, "Id", "Name");
+            ViewData["StudioId"] = new SelectList(_context.Studio, "StudioId", "Name").ToList();
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "ArtistId", "Name").ToList();
             return View();
         }
 
@@ -66,12 +67,12 @@ namespace MvcMovie.Controllers
         {
             if (ModelState.IsValid)
             {
-                var _artists = await _context.Artist.Where(a => Artists.Contains(a.ArtistId.ToString())).ToListAsync();
+                movie.Artists = await _context.Artist.Where(a => Artists.Contains(a.ArtistId.ToString())).ToListAsync();
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudioId"] = new SelectList(_context.Studio, "Id", "Name", movie.StudioId);
+
             return View(movie);
         }
 
@@ -89,7 +90,8 @@ namespace MvcMovie.Controllers
             {
                 return NotFound();
             }
-            ViewData["StudioId"] = new SelectList(_context.Studio, "Id", "Name", movie.StudioId);
+            ViewData["StudioId"] = new SelectList(_context.Studio, "StudioId", "Name").ToList();
+            ViewData["ArtistId"] = new SelectList(_context.Artist, "ArtistId", "Name").ToList();
             return View(movie);
         }
 
@@ -99,7 +101,7 @@ namespace MvcMovie.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,StudioId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,StudioId")] Movie movie, string[] Artists)
         {
             if (id != movie.Id)
             {
@@ -110,7 +112,14 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
+                    
+                    var existingMovie = await _context.Movie.Include(m => m.Artists).FirstOrDefaultAsync(m => m.Id == movie.Id);
+                    if (existingMovie != null)
+                    {
+                        existingMovie.Artists?.Clear();
+                        existingMovie.Artists = await _context.Artist.Where(a => Artists.Contains(a.ArtistId.ToString())).ToListAsync();
+                        _context.Update(existingMovie);
+                    }                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,7 +135,6 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudioId"] = new SelectList(_context.Studio, "Id", "Name", movie.StudioId);
             return View(movie);
         }
 
