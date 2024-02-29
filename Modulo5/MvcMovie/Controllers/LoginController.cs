@@ -9,6 +9,7 @@ using MvcMovie.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace MvcMovie.Controllers;
+
 public class LoginController : Controller
 {
     private readonly IConfiguration _configuration;
@@ -22,6 +23,24 @@ public class LoginController : Controller
 
     public IActionResult Index()
     {
+ 
+        if (Request.Query.ContainsKey("mensagem"))
+        {
+            ViewBag.Mensagem = Request.Query["mensagem"];
+        }
+
+        if (Request.Cookies.ContainsKey("Authentication"))
+        {
+            var token = Request.Cookies["Authentication"];
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+            var userName = jsonToken.Claims.First(claim => claim.Type == "userName").Value;
+            var role = jsonToken.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+
+            ViewBag.UserName = userName;
+            ViewBag.Role = role;
+        }
+
         return View();
     }
 
@@ -41,7 +60,8 @@ public class LoginController : Controller
             var userDb = await _context.User.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == passwordHashed);
             if (userDb != null) 
             {
-                var token = GenerateJwtToken(userDb.Email, "Admin");
+                // placeholder para a role do usuário
+                string token = userDb.Nome == "User" ? GenerateJwtToken(userDb.Email, "User") : GenerateJwtToken(userDb.Email, "Admin");
 
                 Response.Cookies.Append("Authentication", token);
 
@@ -49,7 +69,7 @@ public class LoginController : Controller
             }
             else
             {
-                ModelState.AddModelError("Password", "Essa senha já está em uso pelo usuário Jorge.");
+                ModelState.AddModelError("Password", "Essa senha já está em uso pelo usuário Valber."); // placeholder para mensagem de erro
             }
         }
         return RedirectToAction("Index");
