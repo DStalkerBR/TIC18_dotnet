@@ -13,6 +13,7 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize (Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly MvcMovieContext _context;
@@ -31,7 +32,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Users/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.User == null)
@@ -73,7 +73,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Users/Edit/5
-        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.User == null)
@@ -94,7 +93,6 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,Nome,Email,Password")] User user)
         {
             if (id != user.UserId)
@@ -127,7 +125,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Users/Delete/5
-        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.User == null)

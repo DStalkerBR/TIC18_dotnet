@@ -11,6 +11,7 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly MvcMovieContext _context;
@@ -28,7 +29,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movie/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Movie == null)
@@ -139,7 +139,7 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies/Delete/5
-        [Authorize]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Movie == null)
@@ -161,7 +161,7 @@ namespace MvcMovie.Controllers
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Movie == null)

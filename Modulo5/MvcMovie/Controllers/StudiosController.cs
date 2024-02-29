@@ -11,6 +11,7 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
+    [Authorize]
     public class StudiosController : Controller
     {
         private readonly MvcMovieContext _context;
@@ -29,7 +30,6 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Studios/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Studio == null)
@@ -59,6 +59,7 @@ namespace MvcMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("StudioId,Name,Address,Country")] Studio studio)
         {
             if (ModelState.IsValid)
@@ -124,7 +125,7 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Studios/Delete/5
-        [Authorize]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Studio == null)
@@ -145,7 +146,7 @@ namespace MvcMovie.Controllers
         // POST: Studios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Studio == null)
